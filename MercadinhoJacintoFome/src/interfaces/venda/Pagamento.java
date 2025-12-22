@@ -143,8 +143,6 @@ public class Pagamento extends javax.swing.JDialog {
             }
         });
 
-        cbFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel6.setText("CPF Cliente:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -263,12 +261,15 @@ public class Pagamento extends javax.swing.JDialog {
             return;
         }
         
-        String nomeFuncionario = (String) cbFuncionario.getSelectedItem();
+        Funcionario funcionarioSelecionado =
+        (Funcionario) cbFuncionario.getSelectedItem();
 
-        if (nomeFuncionario.equals("<Funcionários>")) {
+        if (funcionarioSelecionado == null) {
             JOptionPane.showMessageDialog(this, "Selecione um funcionário válido.");
             return;
         }
+
+        String cpfFuncionario = funcionarioSelecionado.getCpf();
         
         String metodoPagamento =
             opcPix.isSelected() ? "PIX" :
@@ -332,7 +333,7 @@ public class Pagamento extends javax.swing.JDialog {
         
         // Finaliza venda
         venda.setCpfCliente(cpfCliente);
-        venda.setNomeFuncionario(nomeFuncionario);
+        venda.setCpfFuncionario(cpfFuncionario);
         venda.setMetodo(metodoPagamento);
 
         finalizada = true;
@@ -365,7 +366,7 @@ public class Pagamento extends javax.swing.JDialog {
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbFuncionario;
+    private javax.swing.JComboBox<Funcionario> cbFuncionario;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -388,16 +389,35 @@ public class Pagamento extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     
     private void carregarFuncionariosNoCombo() {
-        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<Funcionario> modelo = new DefaultComboBoxModel<>();
 
-        modelo.addElement("<Funcionários>"); // Primeiro estado estético
+        modelo.addElement(null);
 
-        for(Funcionario f : funcionarios.listarTodos().values()) {
-            modelo.addElement(f.getNome());
+        for (Funcionario f : funcionarios.listarTodos().values()) {
+            modelo.addElement(f);
         }
 
         cbFuncionario.setModel(modelo);
+
+        cbFuncionario.setRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            javax.swing.JLabel label = new javax.swing.JLabel();
+
+            if (value == null) {
+                label.setText("<Funcionários>");
+            } else {
+                label.setText(value.getNome());
+            }
+
+            if (isSelected) {
+                label.setBackground(list.getSelectionBackground());
+                label.setForeground(list.getSelectionForeground());
+                label.setOpaque(true);
+            }
+
+            return label;
+        });
     }
+
     
     public boolean isFinalizada() {
         return finalizada;

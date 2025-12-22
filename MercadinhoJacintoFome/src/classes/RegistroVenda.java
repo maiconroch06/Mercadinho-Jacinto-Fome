@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class RegistroVenda {
     private String idVenda;
-    private String nomeFuncionario;
+    private String cpfFuncionario;
     private String cpfCliente;
     private double totalValor;
     private String metodo;
@@ -26,12 +26,12 @@ public class RegistroVenda {
         this.cpfCliente = cpfCliente;
     }
 
-    public String getNomeFuncionario() {
-        return nomeFuncionario;
+    public String getCpfFuncionario() {
+        return cpfFuncionario;
     }
     
-    public void setNomeFuncionario(String nomeFuncionario) {
-        this.nomeFuncionario = nomeFuncionario;
+    public void setCpfFuncionario(String nomeFuncionario) {
+        this.cpfFuncionario = nomeFuncionario;
     }
     
     public void setTotalValor(double totalValor) {

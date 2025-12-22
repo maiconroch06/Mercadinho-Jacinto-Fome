@@ -86,7 +86,7 @@ public class Carregar {
         for(RegistroVenda v : vendas.values()) {
             modelo.addRow(new Object[]{
                 v.getIdVenda(),
-                v.getNomeFuncionario(),
+                v.getCpfFuncionario(),
                 v.getCpfCliente(),
                 v.getItensTotal(),
                 String.format("R$ %.2f", v.getTotalValor())

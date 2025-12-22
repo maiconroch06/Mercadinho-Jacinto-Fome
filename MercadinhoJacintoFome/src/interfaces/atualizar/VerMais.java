@@ -21,7 +21,7 @@ public class VerMais extends javax.swing.JDialog {
         
         carregarDados();
         
-        Atalhos.enterGlobal(rootPane, btVoltar);
+        Atalhos.enterGlobal(getRootPane(), btVoltar);
     }
     
     @SuppressWarnings("unchecked")
@@ -206,7 +206,7 @@ public class VerMais extends javax.swing.JDialog {
         Carregar.tabelaProdutosVenda(modeloTableProduto, venda.getItensComprados());
         
         txtNomeCliente.setText(venda.getCpfCliente());
-        txtNomeFuncionario.setText(venda.getNomeFuncionario());
+        txtNomeFuncionario.setText(venda.getCpfFuncionario());
         txtMetodoPagamento.setText(venda.getMetodo());
     }
     
