@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/MercadinhoJacintoFome/src/interfaces/atualizar/AtuCliente.java</file>
-            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/MercadinhoJacintoFome/src/interfaces/atualizar/VerMais.java</file>
-            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/MercadinhoJacintoFome/src/interfaces/venda/Pagamento.java</file>
-            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/MercadinhoJacintoFome/src/interfaces/atualizar/AtuProduto.java</file>
-            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/MercadinhoJacintoFome/src/interfaces/atualizar/AtuFuncionario.java</file>
-            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/MercadinhoJacintoFome/src/interfaces/Main.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/Mercadinho-Jacinto-Fome/MercadinhoJacintoFome/src/interfaces/venda/TelaDebito.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/Mercadinho-Jacinto-Fome/MercadinhoJacintoFome/src/interfaces/venda/Pagamento.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/Mercadinho-Jacinto-Fome/MercadinhoJacintoFome/src/interfaces/venda/TelaPix.java</file>
         </group>
     </open-files>
 </project-private>
