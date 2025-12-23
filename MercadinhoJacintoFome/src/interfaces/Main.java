@@ -715,19 +715,35 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
     
+    /**
+     * Configura as propriedades iniciais da tela principal.
+     * Define o papel de fundo responsivo, layout dos componentes e modo tela cheia.
+     */
     private void configurarTela() {
+        // Posiciona os jLabells
         jLabel1.setSize(800, 60);
         jLabel2.setSize(800, 40);
 
+        // Painel com layout absoluto. Logo permite controlar posições via setLocation()
         painelImagem.setLayout(null);
+        
+        // Faz com que a imagem seja desenhada atras dos componentes
         setContentPane(painelImagem);
         
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
     }
-
+    
+    /**
+     * Adiciona funcionalidade de duplo clique a uma JTable.
+     * Abre a tela de atualização ou visualização conforme a tabela clicada.
+     *
+     * @param tabela JTable que receberá o evento de duplo clique
+     */
     private void duploClick(JTable tabela) {
+        // Adiciona um listener de mouse à tabela informada
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {

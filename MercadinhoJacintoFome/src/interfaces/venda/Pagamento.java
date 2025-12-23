@@ -280,7 +280,7 @@ public class Pagamento extends javax.swing.JDialog {
 
         switch (metodoPagamento) {
             case "PIX":
-                TelaPix tPix = new TelaPix(this, true);
+                TelaPix tPix = new TelaPix(this, true, venda.getTotalValor());
                 tPix.setLocationRelativeTo(this);
                 tPix.setVisible(true);
                 tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

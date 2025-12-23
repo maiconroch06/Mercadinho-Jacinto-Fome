@@ -10,6 +10,7 @@ public class TelaDebito extends javax.swing.JDialog {
     public TelaDebito(Window parent, boolean modal, double total) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
+        
         this.setLocationRelativeTo(parent);
         
         Atalhos.enterGlobal(rootPane, btConfirmar);
