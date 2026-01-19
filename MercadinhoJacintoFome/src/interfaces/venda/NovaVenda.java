@@ -5,10 +5,7 @@ import classes.ItemVenda;
 import classes.Produto;
 import classes.RegistroVenda;
 import java.util.ArrayList;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import services.ClienteService;
@@ -26,7 +23,7 @@ public class NovaVenda extends javax.swing.JDialog {
     private DefaultTableModel modeloTableProduto;
     private DefaultTableModel modeloTableCarrinho;
 
-    public NovaVenda(VendaService vendas, ClienteService clientes, FuncionarioService funcionarios) {
+    public NovaVenda(java.awt.Window parent, boolean modal, VendaService vendas, ClienteService clientes, FuncionarioService funcionarios) {
         initComponents();
         this.setLocationRelativeTo(this);
         

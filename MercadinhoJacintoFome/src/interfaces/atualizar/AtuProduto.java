@@ -10,7 +10,7 @@ public class AtuProduto extends javax.swing.JDialog {
     private ProdutoService produtos;
     private String codigo;
     
-    public AtuProduto(ProdutoService produtos) {
+    public AtuProduto(java.awt.Window parent, boolean modal, ProdutoService produtos) {
         initComponents();
         setLocationRelativeTo(null);
         

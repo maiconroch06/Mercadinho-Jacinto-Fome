@@ -10,7 +10,7 @@ public class CadCliente extends javax.swing.JDialog {
 
     private ClienteService clientes;
     
-    public CadCliente(ClienteService clientes) {
+    public CadCliente(java.awt.Window parent, boolean modal, ClienteService clientes) {
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -21,7 +21,7 @@ public class CadCliente extends javax.swing.JDialog {
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public CadCliente(Window parent, boolean modal, ClienteService clientes, String nome, String cpf) {
+    public CadCliente(java.awt.Window parent, boolean modal, ClienteService clientes, String nome, String cpf) {
         super(parent, ModalityType.APPLICATION_MODAL);
         
         initComponents();

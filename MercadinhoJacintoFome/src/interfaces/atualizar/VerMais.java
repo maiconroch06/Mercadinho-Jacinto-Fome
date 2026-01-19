@@ -11,8 +11,7 @@ public class VerMais extends javax.swing.JDialog {
     private VendaService vendas;
     private String idVenda;
 
-    public VerMais(java.awt.Frame parent, boolean modal, String idVenda, VendaService vendas) {
-        super(parent, modal);
+    public VerMais(java.awt.Window parent, boolean modal, String idVenda, VendaService vendas) {
         initComponents(); 
         
         this.setLocationRelativeTo(this);

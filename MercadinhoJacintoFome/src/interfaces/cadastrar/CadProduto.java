@@ -9,7 +9,7 @@ public class CadProduto extends javax.swing.JDialog {
 
     private ProdutoService produtos;
     
-    public CadProduto(ProdutoService produtos) {
+    public CadProduto(java.awt.Frame parent, boolean modal, ProdutoService produtos) {
         this.produtos = produtos;
         initComponents();
         this.setLocationRelativeTo(null);

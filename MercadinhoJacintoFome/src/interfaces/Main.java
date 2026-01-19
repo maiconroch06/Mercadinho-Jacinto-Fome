@@ -472,8 +472,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnNovaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNovaVendaActionPerformed
-        NovaVenda vendaGUI = new NovaVenda(g.vendas(), g.clientes(), g.funcionarios());
-        vendaGUI.setModal(true);
+        NovaVenda vendaGUI = new NovaVenda(this, true, g.vendas(), g.clientes(), g.funcionarios());
         vendaGUI.setVisible(true);
         
         Carregar.tabelaVendas(modeloTabelaVenda, g.vendas().listarTodas());
@@ -481,48 +480,42 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_mnNovaVendaActionPerformed
 
     private void mnCadProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadProdutoActionPerformed
-        CadProduto cadVGUI = new CadProduto(g.produtos());
-        cadVGUI.setModal(true);
+        CadProduto cadVGUI = new CadProduto(this, true, g.produtos());
         cadVGUI.setVisible(true);
         
         Carregar.tabelaProdutos(modeloTableProduto , g.produtos().listarTodos());
     }//GEN-LAST:event_mnCadProdutoActionPerformed
 
     private void mnCadFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadFuncionarioActionPerformed
-        CadFuncionario cadFGUI = new CadFuncionario(g.funcionarios());
-        cadFGUI.setModal(true);
+        CadFuncionario cadFGUI = new CadFuncionario(this, true, g.funcionarios());
         cadFGUI.setVisible(true);
         
         Carregar.tabelaFuncionarios(modeloTableFuncionario, g.funcionarios().listarTodos());
     }//GEN-LAST:event_mnCadFuncionarioActionPerformed
 
     private void mnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnClienteActionPerformed
-        CadCliente cadCGUI = new CadCliente(g.clientes());
-        cadCGUI.setModal(true);
+        CadCliente cadCGUI = new CadCliente(this, true, g.clientes());
         cadCGUI.setVisible(true);
 
         Carregar.tabelaClientes(modeloTableCliente, g.clientes().listarTodos());
     }//GEN-LAST:event_mnClienteActionPerformed
 
     private void mnAtuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuProdutoActionPerformed
-        AtuProduto AtualizarProd = new AtuProduto(g.produtos());
-        AtualizarProd.setModal(true);
+        AtuProduto AtualizarProd = new AtuProduto(this, true, g.produtos());
         AtualizarProd.setVisible(true);
         
         Carregar.tabelaProdutos(modeloTableProduto , g.produtos().listarTodos());
     }//GEN-LAST:event_mnAtuProdutoActionPerformed
 
     private void mnAtuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuFuncionarioActionPerformed
-        AtuFuncionario AtualizarFun = new AtuFuncionario(g.funcionarios());
-        AtualizarFun.setModal(true);
+        AtuFuncionario AtualizarFun = new AtuFuncionario(this, true, g.funcionarios());
         AtualizarFun.setVisible(true);
 
         Carregar.tabelaFuncionarios(modeloTableFuncionario, g.funcionarios().listarTodos());
     }//GEN-LAST:event_mnAtuFuncionarioActionPerformed
 
     private void mnAtuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuClienteActionPerformed
-        AtuCliente AtualizarCli = new AtuCliente(g.clientes());
-        AtualizarCli.setModal(true);
+        AtuCliente AtualizarCli = new AtuCliente(this, true, g.clientes());
         AtualizarCli.setVisible(true);
         
         Carregar.tabelaClientes(modeloTableCliente, g.clientes().listarTodos());

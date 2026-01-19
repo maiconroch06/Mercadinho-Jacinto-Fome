@@ -10,7 +10,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
     private FuncionarioService funcionarios;
     private String cpf;
     
-    public AtuFuncionario(FuncionarioService funcionarios) {
+    public AtuFuncionario(java.awt.Window parent, boolean modal, FuncionarioService funcionarios) {
         initComponents();
         this.setLocationRelativeTo(null);
         

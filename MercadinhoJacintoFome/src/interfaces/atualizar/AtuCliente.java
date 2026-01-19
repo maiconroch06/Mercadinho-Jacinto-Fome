@@ -10,7 +10,7 @@ public class AtuCliente extends javax.swing.JDialog {
     private ClienteService clientes;
     private String cpf;
     
-    public AtuCliente(ClienteService clientes) {
+    public AtuCliente(java.awt.Window parent, boolean modal, ClienteService clientes) {
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -181,7 +181,7 @@ public class AtuCliente extends javax.swing.JDialog {
         String telefone = txtTelefone.getText().trim();
 
         // VALIDAÇÕES
-        if (nome.isEmpty() || cpf.replace(".", "").trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+        if (nome.isEmpty() || cpf./*replace(".", "").*/trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }

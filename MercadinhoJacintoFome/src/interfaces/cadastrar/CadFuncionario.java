@@ -1,6 +1,7 @@
 package interfaces.cadastrar;
 
 import classes.Funcionario;
+import java.awt.Window;
 import services.FuncionarioService;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
@@ -9,7 +10,7 @@ public class CadFuncionario extends javax.swing.JDialog {
 
     private FuncionarioService funcionarios;
     
-    public CadFuncionario(FuncionarioService funcionarios) {
+    public CadFuncionario(java.awt.Window parent, boolean modal, FuncionarioService funcionarios) {
         this.funcionarios = funcionarios;
         initComponents();
         this.setLocationRelativeTo(null);
