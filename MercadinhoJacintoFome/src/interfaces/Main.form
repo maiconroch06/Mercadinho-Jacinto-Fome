@@ -553,7 +553,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="12" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Visualiza&#xe7;&#xe3;o dos atalhos precione F8."/>
+                    <Property name="text" type="java.lang.String" value="Visualiza&#xe7;&#xe3;o dos atalhos presione F8."/>
                   </Properties>
                 </Component>
               </SubComponents>

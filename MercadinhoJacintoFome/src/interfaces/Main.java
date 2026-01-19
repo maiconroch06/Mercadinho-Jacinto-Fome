@@ -138,7 +138,7 @@ public class Main extends javax.swing.JFrame {
         painelImagem = new javax.swing.JPanel() {
             // carrega a imagem uma vez
             private final java.awt.Image img = new javax.swing.ImageIcon(
-                getClass().getResource("/interfaces/fundinhoAR.jpg")
+                getClass().getResource("/interfaces/fundo.jpg")
             ).getImage();
 
             @Override
@@ -323,7 +323,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setText("Visualização dos atalhos precione F8.");
+        jLabel3.setText("Visualização dos atalhos presione F8.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
