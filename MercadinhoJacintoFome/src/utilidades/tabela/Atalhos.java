@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 public class Atalhos {
     
+    // Atalho com botão ENTER com ação generica
     public static void enterGlobal(JRootPane root, JButton botao) {
         root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke("ENTER"), "ENTER_GLOBAL");
@@ -29,6 +30,7 @@ public class Atalhos {
         });
     }
     
+    // Atalho generico
     public static void atalho(JButton botao, String tecla) {
         botao.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(tecla), tecla);
@@ -70,7 +72,8 @@ public class Atalhos {
             }
         });
     }
-     
+    
+    // Atalho generico
     public static void duploClique(JTable tabela, Runnable acao) {
         tabela.addMouseListener(new MouseAdapter() {
             @Override
@@ -82,6 +85,7 @@ public class Atalhos {
         });
     }
     
+    // Tela de Venda - Atalhos dinamicos para foco de componentes
     public static void focar(JComponent comp) {
         if (comp == null) return;
 
@@ -89,6 +93,7 @@ public class Atalhos {
         if (comp instanceof JSpinner) {
             JSpinner spinner = (JSpinner) comp;
             JComponent editor = spinner.getEditor();
+            
             if (editor instanceof JSpinner.DefaultEditor) {
                 JTextField txt = ((JSpinner.DefaultEditor) editor).getTextField();
                 txt.requestFocusInWindow();
@@ -112,6 +117,7 @@ public class Atalhos {
         comp.requestFocusInWindow();
     }
     
+    // Atalho para abrir tela de atalhos
     public static void atalhoLegenda(JRootPane root) {
         root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke("F8"), "abrirLegenda");

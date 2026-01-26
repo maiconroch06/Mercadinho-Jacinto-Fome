@@ -15,19 +15,7 @@ import java.util.HashMap;
  */
 public class ClienteService {
 
-    /**
-     * Estrutura que armazena os clientes cadastrados.
-     * A chave é o CPF (único para cada cliente).
-     */
     private final HashMap<String, Cliente> clientes = new HashMap<>();
-
-    /**
-     * Flag que indica se houve alterações nos dados dos clientes.
-     * Pode ser usada para:
-     * - Persistência
-     * - Atualização de telas
-     * - Controle de sincronização
-     */
     private boolean clientesAtualizados = false;
 
     // ================== 1. CADASTRO ==================
@@ -70,6 +58,7 @@ public class ClienteService {
      * 
      * Atenção: retorna a referência direta do HashMap.
      * Ideal para leitura.
+     * @return Retorna um hashmap cpm dados da venda ou null se não existir 
      */
     public HashMap<String, Cliente> listarTodos() {
         return clientes;
@@ -108,7 +97,6 @@ public class ClienteService {
      *         false se o cliente não existir
      */
     public boolean atualizar(String cpf, Cliente clienteNovo) {
-
         if (!clientes.containsKey(cpf)) {
             return false;
         }
@@ -122,41 +110,19 @@ public class ClienteService {
 
     // ================== 5. PRÉ-CADASTROS ==================
 
-    /**
-     * Carrega clientes padrão no sistema.
-     * 
-     * Método útil para:
-     * - Testes
-     * - Demonstrações
-     * - Ambiente de desenvolvimento
-     */
     public void carregarClientesPadrao() {
-
-        cadastrar("333.333.333-33",
-                new Cliente("Jackson", "333.333.333-33", "Rua C", "(33)93333-3333"));
-
-        cadastrar("444.444.444-44",
-                new Cliente("Laelson", "444.444.444-44", "Rua D", "(44)94444-4444"));
-
-        cadastrar("555.555.555-55",
-                new Cliente("Maicon", "555.555.555-55", "Rua E", "(55)95555-5555"));
-
-        cadastrar("666.666.666-66",
-                new Cliente("Ryan", "666.666.666-66", "Rua F", "(66)96666-6666"));
+        cadastrar("333.333.333-33", new Cliente("Jackson", "333.333.333-33", "Rua C", "(33)93333-3333"));
+        cadastrar("444.444.444-44", new Cliente("Laelson", "444.444.444-44", "Rua D", "(44)94444-4444"));
+        cadastrar("555.555.555-55", new Cliente("Maicon", "555.555.555-55", "Rua E", "(55)95555-5555"));
+        cadastrar("666.666.666-66", new Cliente("Ryan", "666.666.666-66", "Rua F", "(66)96666-6666"));
     }
 
     // ================== 6. GETTERS E SETTERS ==================
 
-    /**
-     * Indica se os dados dos clientes foram alterados.
-     */
     public boolean isClientesAtualizados() {
         return clientesAtualizados;
     }
 
-    /**
-     * Permite controlar manualmente o estado de atualização.
-     */
     public void setClientesAtualizados(boolean clientesAtualizados) {
         this.clientesAtualizados = clientesAtualizados;
     }

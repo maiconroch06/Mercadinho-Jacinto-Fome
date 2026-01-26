@@ -51,39 +51,7 @@ public class Main extends javax.swing.JFrame {
         Carregar.ordenacao(jTVendas);
         
         // Habilida a função de sempre mostrar lista inteira, mesmo depois de ter feito uma pesquisa anteriomente.
-        Abas.addChangeListener(e -> {
-            int index = Abas.getSelectedIndex();
-
-            switch (index) {
-                case 0: // Produtos
-                    if(g.produtos().isProdutosAtualizados()) {
-                        Carregar.tabelaProdutos(modeloTableProduto, g.produtos().listarTodos());
-                        g.produtos().setProdutosAtualizados(false);
-                    }
-                    break;
-
-                case 1: // Clientes
-                    if(g.clientes().isClientesAtualizados()) {
-                        Carregar.tabelaClientes(modeloTableCliente, g.clientes().listarTodos());
-                        g.clientes().setClientesAtualizados(false);
-                    }
-                    break;
-
-                case 2: // Funcionários
-                    if(g.funcionarios().isFuncionariosAtualizados()) {
-                        Carregar.tabelaFuncionarios(modeloTableFuncionario, g.funcionarios().listarTodos());
-                        g.funcionarios().setFuncionariosAtualizados(false);
-                    }
-                    break;
-
-                case 3: // Vendas
-                    if(g.vendas().isVendasAtualizadas()) {
-                        Carregar.tabelaVendas(modeloTabelaVenda, g.vendas().listarTodas());
-                        g.vendas().setVendasAtualizadas(false);
-                    }
-                    break;
-            }
-        });
+        atualizarTabelaProdutos();
     }
     
     @SuppressWarnings("unchecked")
@@ -363,16 +331,16 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btExcluir))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btPesquisar)
+                    .addComponent(btExcluir)
                     .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         painelImagem.add(jPanel1);
@@ -708,17 +676,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
     
-    /**
-     * Configura as propriedades iniciais da tela principal.
-     * Define o papel de fundo responsivo, layout dos componentes e modo tela cheia.
-     */
     private void configurarTela() {
-        // Posiciona os jLabells
-        jLabel1.setSize(800, 60);
-        jLabel2.setSize(800, 40);
+        // Posiciona os jLabells - Caso dê algum erro
+        //jLabel1.setSize(800, 60);
+        //jLabel2.setSize(800, 40);
 
         // Painel com layout absoluto. Logo permite controlar posições via setLocation()
-        painelImagem.setLayout(null);
+        //painelImagem.setLayout(null);
         
         // Faz com que a imagem seja desenhada atras dos componentes
         setContentPane(painelImagem);
@@ -726,13 +690,7 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
     }
-    
-    /**
-     * Adiciona funcionalidade de duplo clique a uma JTable.
-     * Abre a tela de atualização ou visualização conforme a tabela clicada.
-     *
-     * @param tabela JTable que receberá o evento de duplo clique
-     */
+
     private void duploClick(JTable tabela) {
         // Adiciona um listener de mouse à tabela informada
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -782,7 +740,7 @@ public class Main extends javax.swing.JFrame {
                         int linha = tabela.getSelectedRow();
                         String idVenda = jTVendas.getValueAt(linha, 0).toString();
 
-                        VerMais tela = new VerMais(Main.this, true, idVenda, g.vendas());
+                        ProdutosComprados tela = new ProdutosComprados(Main.this, true, idVenda, g.vendas());
                         
                         tela.setVisible(true);
                         
@@ -792,4 +750,42 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void atualizarTabelaProdutos() {
+        Abas.addChangeListener(e -> {
+            int index = Abas.getSelectedIndex();
+
+            switch (index) {
+                case 0: // Produtos
+                    if(g.produtos().isProdutosAtualizados()) {
+                        Carregar.tabelaProdutos(modeloTableProduto, g.produtos().listarTodos());
+                        g.produtos().setProdutosAtualizados(false);
+                    }
+                    break;
+
+                case 1: // Clientes
+                    if(g.clientes().isClientesAtualizados()) {
+                        Carregar.tabelaClientes(modeloTableCliente, g.clientes().listarTodos());
+                        g.clientes().setClientesAtualizados(false);
+                    }
+                    break;
+
+                case 2: // Funcionários
+                    if(g.funcionarios().isFuncionariosAtualizados()) {
+                        Carregar.tabelaFuncionarios(modeloTableFuncionario, g.funcionarios().listarTodos());
+                        g.funcionarios().setFuncionariosAtualizados(false);
+                    }
+                    break;
+
+                case 3: // Vendas
+                    if(g.vendas().isVendasAtualizadas()) {
+                        Carregar.tabelaVendas(modeloTabelaVenda, g.vendas().listarTodas());
+                        g.vendas().setVendasAtualizadas(false);
+                    }
+                    break;
+            }
+        });
+
+    }
+    
 }

@@ -6,12 +6,12 @@ import javax.swing.table.DefaultTableModel;
 import utilidades.tabela.Atalhos;
 import utilidades.tabela.Carregar;
 
-public class VerMais extends javax.swing.JDialog {    
+public class ProdutosComprados extends javax.swing.JDialog {    
     
     private VendaService vendas;
     private String idVenda;
 
-    public VerMais(java.awt.Window parent, boolean modal, String idVenda, VendaService vendas) {
+    public ProdutosComprados(java.awt.Window parent, boolean modal, String idVenda, VendaService vendas) {
         initComponents(); 
         
         this.setLocationRelativeTo(this);
@@ -43,6 +43,7 @@ public class VerMais extends javax.swing.JDialog {
         metodoPag = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tela de Produtos Comprados");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

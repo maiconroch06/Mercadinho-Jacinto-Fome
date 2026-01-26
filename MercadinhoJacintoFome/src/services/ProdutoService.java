@@ -19,27 +19,9 @@ import java.util.HashMap;
  */
 public class ProdutoService {
 
-    /**
-     * Estrutura que armazena os produtos cadastrados.
-     * 
-     * A chave (String) representa o código único do produto.
-     * O valor (Produto) contém todas as informações do produto.
-     */
     private final HashMap<String, Produto> produtos = new HashMap<>();
-
-    /**
-     * Flag que indica se houve alterações na lista de produtos.
-     * 
-     * Pode ser utilizada pela interface gráfica para:
-     * - Recarregar JTable
-     * - Evitar atualizações desnecessárias
-     * - Controlar estado do sistema
-     */
     private boolean produtosAtualizados = false;
 
-    /**
-     * Construtor padrão.
-     */
     public ProdutoService() {}
 
     // ================== 1. CADASTRO ==================
@@ -221,14 +203,6 @@ public class ProdutoService {
 
     // ================== 6. PRODUTOS PADRÃO ==================
 
-    /**
-     * Carrega produtos pré-cadastrados no sistema.
-     * 
-     * Método utilizado para:
-     * - Testes
-     * - Demonstrações
-     * - Ambiente de desenvolvimento
-     */
     public void carregarProdutosPadrao() {
 
         cadastrar("001", new Produto("001", "Arroz", 10, 5.99));
@@ -255,21 +229,10 @@ public class ProdutoService {
 
     // ================== 7. GETTERS E SETTERS ==================
 
-    /**
-     * Indica se a lista de produtos foi alterada.
-     * 
-     * @return true se houve alterações | false caso contrário
-     */
     public boolean isProdutosAtualizados() {
         return produtosAtualizados;
     }
 
-    /**
-     * Permite controlar manualmente o estado de atualização.
-     * 
-     * Geralmente utilizado após a interface
-     * recarregar as tabelas.
-     */
     public void setProdutosAtualizados(boolean produtosAtualizados) {
         this.produtosAtualizados = produtosAtualizados;
     }

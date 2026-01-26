@@ -1,7 +1,7 @@
 package classes;
 
 public class Produto{
-    private String codigoProduto; //pode ser int
+    private String codigoProduto;
     private String descricao;
     private int quantidade;
     private double valorUnitario;

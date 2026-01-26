@@ -16,24 +16,9 @@ import javax.swing.JOptionPane;
  */
 public class FuncionarioService {
 
-    /**
-     * Estrutura que armazena os funcionários cadastrados.
-     * A chave é o CPF (identificador único).
-     */
     private final HashMap<String, Funcionario> listaDeFuncionarios = new HashMap<>();
-
-    /**
-     * Flag que indica se houve alterações na lista de funcionários.
-     * Pode ser utilizada para:
-     * - Persistência
-     * - Atualização de interfaces
-     * - Controle de estado
-     */
     private boolean funcionariosAtualizados = false;
 
-    /**
-     * Construtor padrão.
-     */
     public FuncionarioService() {}
 
     // ================== 1. CADASTRO ==================
@@ -122,14 +107,6 @@ public class FuncionarioService {
 
     // ================== 5. PRÉ-CADASTROS ==================
 
-    /**
-     * Carrega funcionários padrão no sistema.
-     * 
-     * Método utilizado para:
-     * - Testes
-     * - Ambiente de desenvolvimento
-     * - Demonstrações
-     */
     public void carregarFuncionariosPadrao() {
         cadastrar("111.111.111-11", new Funcionario("Danilo", "111.111.111-11"));
         cadastrar("222.222.222-22", new Funcionario("Gabriel", "222.222.222-22"));
@@ -137,16 +114,10 @@ public class FuncionarioService {
 
     // ================== 6. GETTERS E SETTERS ==================
 
-    /**
-     * Indica se a lista de funcionários foi alterada.
-     */
     public boolean isFuncionariosAtualizados() {
         return funcionariosAtualizados;
     }
 
-    /**
-     * Permite controlar manualmente o estado de atualização.
-     */
     public void setFuncionariosAtualizados(boolean funcionariosAtualizados) {
         this.funcionariosAtualizados = funcionariosAtualizados;
     }
