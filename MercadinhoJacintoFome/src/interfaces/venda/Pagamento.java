@@ -1,32 +1,29 @@
 package interfaces.venda;
 
-import services.VendaService;
 import classes.Cliente;
 import classes.Funcionario;
+import classes.Pessoa;
 import classes.RegistroVenda;
 import interfaces.cadastrar.CadCliente;
 import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import services.ClienteService;
-import services.FuncionarioService;
+import services.PessoaService;
 import utilidades.tabela.Atalhos;
 
 public class Pagamento extends javax.swing.JDialog {
     
-    private final ClienteService clientes;
-    private final FuncionarioService funcionarios;
+    private final PessoaService pessoas;
     private final RegistroVenda venda;
     private boolean finalizada = false;
 
-    public Pagamento(Window parent, boolean modal, ClienteService clientes, FuncionarioService funcionarios, RegistroVenda venda) {
+    public Pagamento(Window parent, boolean modal, PessoaService pessoas, RegistroVenda venda) {
         super(parent, ModalityType.APPLICATION_MODAL); 
 
         initComponents();
         this.setLocationRelativeTo(parent);
         
-        this.clientes = clientes;
-        this.funcionarios = funcionarios;
+        this.pessoas = pessoas;
         this.venda = venda;
         
         Atalhos.enterGlobal(getRootPane(), btnFinalizar);
@@ -239,7 +236,7 @@ public class Pagamento extends javax.swing.JDialog {
             return;
         }
         
-        Cliente cliente = clientes.consultar(cpfCliente);
+        Pessoa cliente = pessoas.consultar(cpfCliente);
         
         if (cliente == null) {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
@@ -255,13 +252,13 @@ public class Pagamento extends javax.swing.JDialog {
             );
             
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(this, true, clientes, nomeCliente, cpfCliente);
+                CadCliente cad = new CadCliente(this, true, pessoas, nomeCliente, cpfCliente);
                 cad.setVisible(true);
             }
             return;
         }
         
-        Funcionario funcionarioSelecionado =
+        Pessoa funcionarioSelecionado =
         (Funcionario) cbFuncionario.getSelectedItem();
 
         if (funcionarioSelecionado == null) {
@@ -348,14 +345,14 @@ public class Pagamento extends javax.swing.JDialog {
         String nomeCliente = txtNomeCliente.getText().trim();
         String cpfCliente = txtCpfCliente.getText().trim();
         
-        CadCliente cad = new CadCliente(this, true, clientes, nomeCliente, cpfCliente);
+        CadCliente cad = new CadCliente(this, true, pessoas, nomeCliente, cpfCliente);
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 
     private void txtCpfClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfClienteFocusLost
         try {
-            Cliente cliente = clientes.consultar(txtCpfCliente.getText().trim());
-            txtNomeCliente.setText(cliente.getNome());
+            Pessoa pessoa = pessoas.consultar(txtCpfCliente.getText().trim());
+            txtNomeCliente.setText(pessoa.getNome());
             
         } catch (Exception e) {
         }
@@ -393,8 +390,8 @@ public class Pagamento extends javax.swing.JDialog {
 
         modelo.addElement(null);
 
-        for (Funcionario f : funcionarios.listarTodos().values()) {
-            modelo.addElement(f);
+        for (Pessoa p : pessoas.listarTodos().values()) {
+            modelo.addElement((Funcionario)p);
         }
 
         cbFuncionario.setModel(modelo);
@@ -417,7 +414,6 @@ public class Pagamento extends javax.swing.JDialog {
             return label;
         });
     }
-
     
     public boolean isFinalizada() {
         return finalizada;

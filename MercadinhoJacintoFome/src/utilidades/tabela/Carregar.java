@@ -41,7 +41,7 @@ public class Carregar {
     // CARREGAR PRODUTOS DA VENDA
     public static void tabelaProdutosVenda(DefaultTableModel modelo, ArrayList<ItemVenda> itensComprados) {
         modelo.setRowCount(0);
-
+        
         for (ItemVenda v : itensComprados) {
             modelo.addRow(new Object[]{
                 v.getCodigoProduto(),
@@ -54,28 +54,34 @@ public class Carregar {
     }
 
     // CARREGAR CLIENTES
-    public static void tabelaClientes(DefaultTableModel modeloTableProduto, HashMap<String, Cliente> clientes) {
+    public static void tabelaClientes(DefaultTableModel modeloTableProduto, HashMap<String, Pessoa> pessoas) {
         modeloTableProduto.setRowCount(0);
-
-        for (Cliente c : clientes.values()) {
-            modeloTableProduto.addRow(new Object[]{
-                c.getNome(),
-                c.getCpf(),
-                c.getTelefone(),
-                c.getEndereco()
-            });
+        
+        for (Pessoa p : pessoas.values()) {
+            if(p instanceof Cliente) {
+                Cliente c = (Cliente) p;
+                modeloTableProduto.addRow(new Object[]{
+                    c.getNome(),
+                    c.getCpf(),
+                    c.getTelefone(),
+                    c.getEndereco()
+                });
+            }
         }
     }
 
     // CARREGAR FUNCIONÁRIOS
-    public static void tabelaFuncionarios(DefaultTableModel modeloTableFuncionario, HashMap<String, Funcionario> funcionarios) {
+    public static void tabelaFuncionarios(DefaultTableModel modeloTableFuncionario, HashMap<String, Pessoa> pessoas) {
         modeloTableFuncionario.setRowCount(0);
 
-        for (Funcionario f : funcionarios.values()) {
-            modeloTableFuncionario.addRow(new Object[]{
-                f.getNome(),
-                f.getCpf()
-            });
+        for (Pessoa p : pessoas.values()) {
+            if(p instanceof Funcionario) {
+                Funcionario f = (Funcionario) p;
+                modeloTableFuncionario.addRow(new Object[]{
+                    f.getNome(),
+                    f.getCpf()
+                });
+            }
         }
     }
 
@@ -93,5 +99,4 @@ public class Carregar {
             });
         }
     }
-    
 }

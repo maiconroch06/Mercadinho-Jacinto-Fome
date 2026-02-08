@@ -1,33 +1,33 @@
 package interfaces.cadastrar;
 
 import classes.Cliente;
-import java.awt.Window;
-import services.ClienteService;
+import classes.Pessoa;
+import services.PessoaService;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadCliente extends javax.swing.JDialog {
 
-    private ClienteService clientes;
+    private PessoaService pessoas;
     
-    public CadCliente(java.awt.Window parent, boolean modal, ClienteService clientes) {
+    public CadCliente(java.awt.Window parent, boolean modal, PessoaService pessoas) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.clientes = clientes;
+        this.pessoas = pessoas;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
         Atalhos.enterGlobal(getRootPane(), btCadastrar);
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public CadCliente(java.awt.Window parent, boolean modal, ClienteService clientes, String nome, String cpf) {
+    public CadCliente(java.awt.Window parent, boolean modal, PessoaService pessoas, String nome, String cpf) {
         super(parent, ModalityType.APPLICATION_MODAL);
         
         initComponents();
         setLocationRelativeTo(parent);
         
-        this.clientes = clientes;
+        this.pessoas = pessoas;
 
         if (nome != null && !nome.trim().isEmpty()) {
             txtNome.setText(nome.trim());
@@ -171,20 +171,20 @@ public class CadCliente extends javax.swing.JDialog {
             return;
         }
 
-        Cliente existenteCliente = clientes.consultar(cpf);
+        Pessoa existenteCliente = pessoas.consultar(cpf);
         
         if(existenteCliente != null) {
             JOptionPane.showMessageDialog(null, "Cliente já cadastrado!");
             return;
         }
         
-        Cliente novoCliente = new Cliente();
+        Pessoa novoCliente = new Cliente();
         novoCliente.setNome(nome);
         novoCliente.setCpf(cpf);
-        novoCliente.setEndereco(endereco);
-        novoCliente.setTelefone(telefone);
+        ((Cliente)novoCliente).setEndereco(endereco);
+        ((Cliente)novoCliente).setTelefone(telefone);
 
-        clientes.cadastrar(cpf, novoCliente);
+        pessoas.cadastrar(cpf, novoCliente);
 
         txtNome.setText("");
         txtCpf.setText("");

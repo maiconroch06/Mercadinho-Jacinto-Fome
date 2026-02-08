@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
-import services.ClienteService;
-import services.FuncionarioService;
+import services.PessoaService;
 import utilidades.tabela.Carregar;
 import utilidades.tabela.Atalhos;
 import utilidades.tabela.Pesquisar;
@@ -17,21 +16,19 @@ import utilidades.tabela.Pesquisar;
 public class NovaVenda extends javax.swing.JDialog {
 
     private final VendaService vendas;
-    private final ClienteService clientes;
-    private final FuncionarioService funcionarios;
+    private final PessoaService pessoas;
     
     private DefaultTableModel modeloTableProduto;
     private DefaultTableModel modeloTableCarrinho;
 
-    public NovaVenda(java.awt.Window parent, boolean modal, VendaService vendas, ClienteService clientes, FuncionarioService funcionarios) {
+    public NovaVenda(java.awt.Window parent, boolean modal, VendaService vendas, PessoaService pessoas) {
         initComponents();
         this.setLocationRelativeTo(this);
         
         this.modeloTableProduto = (DefaultTableModel) jTProdutos.getModel();
         this.modeloTableCarrinho = (DefaultTableModel) jTCarrinho.getModel();
         
-        this.clientes = clientes;
-        this.funcionarios = funcionarios;
+        this.pessoas = pessoas;
         this.vendas = vendas;
         
         Carregar.ordenacao(jTProdutos);
@@ -411,7 +408,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
 
         // abre tela de pagamento
-        Pagamento pagGUI = new Pagamento(this, true, clientes, funcionarios, venda);
+        Pagamento pagGUI = new Pagamento(this, true, pessoas, venda);
         pagGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pagGUI.setVisible(true);
 

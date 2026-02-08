@@ -15,23 +15,23 @@ public class Deletar {
             Carregar.tabelaProdutos(modeloTableProduto, produtos.listarTodos());
     }
     
-    public static void deletarCliente(DefaultTableModel modeloTableCliente, int linha, String chave, ClienteService clientes){
+    public static void deletarCliente(DefaultTableModel modeloTableCliente, int linha, String chave, PessoaService pessoas){
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja excluir o cliente CPF: " + chave + "?",
                 "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-            clientes.remover(chave);
-            Carregar.tabelaClientes(modeloTableCliente, clientes.listarTodos());
+            pessoas.remover(chave);
+            Carregar.tabelaClientes(modeloTableCliente, pessoas.listarTodos());
         }
     }
     
-    public static void deletarFuncionario(DefaultTableModel modeloTableFuncionario, int linha, String chave, FuncionarioService funcionarios){
+    public static void deletarFuncionario(DefaultTableModel modeloTableFuncionario, int linha, String chave, PessoaService pessoas){
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja excluir o funcionário CPF: " + chave + "?",
                 "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-            funcionarios.remover(chave);
-            Carregar.tabelaFuncionarios(modeloTableFuncionario, funcionarios.listarTodos());
+            pessoas.remover(chave);
+            Carregar.tabelaFuncionarios(modeloTableFuncionario, pessoas.listarTodos());
         }
     }
     

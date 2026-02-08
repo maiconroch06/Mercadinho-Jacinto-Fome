@@ -1,9 +1,13 @@
 package classes;
 
-public class Pessoa {
+public abstract class Pessoa {
     private String cpf;
     private String nome;
 
+    public Pessoa() {}
+
+    public abstract tipoPessoa getTipo();
+    
     public Pessoa(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
@@ -24,5 +28,19 @@ public class Pessoa {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    
+    public String getEndereco() {
+        return null;
+    }
+
+    public String getTelefone() {
+        return null;
+    }
+    
+    public enum tipoPessoa {
+        CLIENTE,
+        FUNCIONARIO
+    }
+
 }
 

@@ -25,29 +25,29 @@ public class Pesquisar {
         }
     }
 
-    public static void pesqCliente(String cpf, DefaultTableModel modeloTableCliente, ClienteService clientes) {
+    public static void pesqCliente(String cpf, DefaultTableModel modeloTableCliente, PessoaService pessoas) {
         modeloTableCliente.setRowCount(0);
 
-        Cliente c = clientes.consultar(cpf);
+        Pessoa c = pessoas.consultar(cpf);
 
         if (c != null) {
             modeloTableCliente.addRow(new Object[]{
                 c.getNome(),
                 c.getCpf(),
-                c.getEndereco(),
-                c.getTelefone()
+                ((Cliente)c).getEndereco(),
+                ((Cliente)c).getTelefone()
             });
             
         } else {
-            Carregar.tabelaClientes(modeloTableCliente, clientes.listarTodos());
+            Carregar.tabelaClientes(modeloTableCliente, pessoas.listarTodos());
             JOptionPane.showMessageDialog(null, "Cliente não encontrado");
         }
     }
 
-    public static void pesqFuncionario(String cpf, DefaultTableModel modeloTableFuncionario, FuncionarioService funcionarios) {
+    public static void pesqFuncionario(String cpf, DefaultTableModel modeloTableFuncionario, PessoaService pessoas) {
         modeloTableFuncionario.setRowCount(0);
 
-        Funcionario f = funcionarios.consultar(cpf);
+        Pessoa f = pessoas.consultar(cpf);
 
         if (f != null) {
             modeloTableFuncionario.addRow(new Object[]{
@@ -56,7 +56,7 @@ public class Pesquisar {
             });
             
         } else {
-            Carregar.tabelaFuncionarios(modeloTableFuncionario, funcionarios.listarTodos());
+            Carregar.tabelaFuncionarios(modeloTableFuncionario, pessoas.listarTodos());
             JOptionPane.showMessageDialog(null, "Funcionário não encontrado");
         }
     }

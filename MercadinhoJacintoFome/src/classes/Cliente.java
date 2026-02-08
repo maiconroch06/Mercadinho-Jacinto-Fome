@@ -12,6 +12,7 @@ public class Cliente extends Pessoa {
         this.telefone = telefone;
     }
     
+    @Override
     public String getEndereco() {
         return endereco;
     }
@@ -20,6 +21,7 @@ public class Cliente extends Pessoa {
         this.endereco = endereço;
     }
 
+    @Override
     public String getTelefone() {
         return telefone;
     }
@@ -27,4 +29,9 @@ public class Cliente extends Pessoa {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+    
+    public tipoPessoa getTipo(){
+        return tipoPessoa.CLIENTE;
+    }
+    
 }

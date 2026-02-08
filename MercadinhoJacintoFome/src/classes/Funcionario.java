@@ -8,4 +8,8 @@ public class Funcionario extends Pessoa{
         super(nome, CPF);
     }
     
+    public tipoPessoa getTipo() {
+        return tipoPessoa.FUNCIONARIO;
+   }
+    
 }

@@ -1,31 +1,32 @@
 package interfaces.atualizar;
 
 import classes.Cliente;
+import classes.Pessoa;
 import javax.swing.JOptionPane;
-import services.ClienteService;
+import services.PessoaService;
 import utilidades.tabela.Atalhos;
 
 public class AtuCliente extends javax.swing.JDialog {
     
-    private ClienteService clientes;
+    private PessoaService pessoas;
     private String cpf;
     
-    public AtuCliente(java.awt.Window parent, boolean modal, ClienteService clientes) {
+    public AtuCliente(java.awt.Window parent, boolean modal, PessoaService pessoas) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.clientes = clientes;
+        this.pessoas = pessoas;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
         Atalhos.enterGlobal(getRootPane(), btAtualizar);
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuCliente(ClienteService clientes, String cpf) {
+    public AtuCliente(PessoaService pessoas, String cpf) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.clientes = clientes;
+        this.pessoas = pessoas;
         this.cpf = cpf;
         
         txtCpf.setEditable(false);
@@ -186,14 +187,14 @@ public class AtuCliente extends javax.swing.JDialog {
             return;
         }
         
-        Cliente cliente = clientes.consultar(cpf);
+        Pessoa pessoa = pessoas.consultar(cpf);
 
-        if(cliente != null) {
-            cliente.setNome(nome);
-            cliente.setEndereco(endereco);
-            cliente.setTelefone(telefone);
+        if(pessoa != null) {
+            pessoa.setNome(nome);
+            ((Cliente)pessoa).setEndereco(endereco);
+            ((Cliente)pessoa).setTelefone(telefone);
             
-            clientes.cadastrar(cpf, cliente);
+            pessoas.cadastrar(cpf, pessoa);
 
             txtCpf.setText("");
             txtEndereco.setText("");
@@ -202,10 +203,10 @@ public class AtuCliente extends javax.swing.JDialog {
 
             String mensagem =
                 "Cliente atualizado com sucesso!\n\n" +
-                "CPF: " + cliente.getCpf() + "\n" +
-                "Nome: " + cliente.getNome() + "\n" +       
-                "Endereço: " + cliente.getEndereco() + "\n" +
-                "Telefone: " + cliente.getTelefone();
+                "CPF: " + pessoa.getCpf() + "\n" +
+                "Nome: " + pessoa.getNome() + "\n" +       
+                "Endereço: " + ((Cliente)pessoa).getEndereco() + "\n" +
+                "Telefone: " + ((Cliente)pessoa).getTelefone();
 
             JOptionPane.showMessageDialog(null, mensagem);
         } else {
@@ -219,13 +220,13 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Cliente cliente = clientes.consultar(cpf);
+            Pessoa pessoa = (Cliente) pessoas.consultar(cpf);
             
-            if (cliente != null) {
-                txtNome.setText(cliente.getNome());
-                txtCpf.setText(cliente.getCpf());
-                txtEndereco.setText(cliente.getEndereco());
-                txtTelefone.setText(cliente.getTelefone());
+            if (pessoa != null) {
+                txtNome.setText(pessoa.getNome());
+                txtCpf.setText(pessoa.getCpf());
+                txtEndereco.setText(((Cliente)pessoa).getEndereco());
+                txtTelefone.setText(((Cliente)pessoa).getTelefone());
             }
 
         } catch (Exception e) {
@@ -235,10 +236,10 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente c = clientes.consultar(cpf);
-            txtEndereco.setText(c.getEndereco());
-            txtNome.setText(c.getNome()); 
-            txtTelefone.setText(String.valueOf(c.getTelefone()));
+            Pessoa p = pessoas.consultar(cpf);
+            txtEndereco.setText(((Cliente)p).getEndereco());
+            txtNome.setText(p.getNome()); 
+            txtTelefone.setText(String.valueOf(((Cliente)p).getTelefone()));
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCpfFocusLost

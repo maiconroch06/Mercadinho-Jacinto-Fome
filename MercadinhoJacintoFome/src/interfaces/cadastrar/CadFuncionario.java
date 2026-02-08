@@ -1,17 +1,17 @@
 package interfaces.cadastrar;
 
 import classes.Funcionario;
-import java.awt.Window;
-import services.FuncionarioService;
+import classes.Pessoa;
+import services.PessoaService;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadFuncionario extends javax.swing.JDialog {
 
-    private FuncionarioService funcionarios;
+    private PessoaService pessoas;
     
-    public CadFuncionario(java.awt.Window parent, boolean modal, FuncionarioService funcionarios) {
-        this.funcionarios = funcionarios;
+    public CadFuncionario(java.awt.Window parent, boolean modal, PessoaService pessoas) {
+        this.pessoas = pessoas;
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -119,18 +119,18 @@ public class CadFuncionario extends javax.swing.JDialog {
             return;
         }
 
-        Funcionario existenteFuncionario = funcionarios.consultar(cpf);
+        Pessoa existenteFuncionario = pessoas.consultar(cpf);
         
         if(existenteFuncionario != null){
             JOptionPane.showMessageDialog(null, "Funcionario já cadastrado!");
             return;
         }
         
-        Funcionario novoFuncionario = new Funcionario();
+        Pessoa novoFuncionario = new Funcionario();
         novoFuncionario.setNome(nome);
         novoFuncionario.setCpf(cpf);
 
-        funcionarios.cadastrar(cpf, novoFuncionario);
+        pessoas.cadastrar(cpf, novoFuncionario);
 
         txtNome.setText("");
         txtCpf.setText("");
