@@ -16,7 +16,7 @@ public class TelaPix extends javax.swing.JDialog {
         
         this.setLocationRelativeTo(this);
         
-        Atalhos.atalho(btVoltar, "ESPACE");
+        Atalhos.atalho(btVoltar, "ESCAPE");
         
         txtTotal.setText(String.format("R$ %.2f", total));
         

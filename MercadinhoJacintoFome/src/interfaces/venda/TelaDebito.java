@@ -13,7 +13,7 @@ public class TelaDebito extends javax.swing.JDialog {
         
         this.setLocationRelativeTo(parent);
         
-        Atalhos.enterGlobal(rootPane, btConfirmar);
+        Atalhos.atalho(btConfirmar, "ENTER");
         Atalhos.atalho(btVoltar, "ESCAPE");
         
         txtTotal.setText(String.format("R$ %.2f", total));

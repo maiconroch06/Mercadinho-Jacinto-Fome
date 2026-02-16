@@ -2,13 +2,13 @@ package classes;
 
 public class ItemVenda extends Produto {
     
-    private double valorTotalProduto;
+    private double valorTotal;
     
-    public void setValorTotalProduto(double valorTotalProduto) {
-        this.valorTotalProduto = valorTotalProduto;
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
     }
     
-    public double getValorTotalProduto() {
-        return valorTotalProduto;
+    public double getValorTotal() {
+        return getQuantidade() * getValorUnitario();
     }
 }

@@ -8,6 +8,7 @@ public class Funcionario extends Pessoa{
         super(nome, CPF);
     }
     
+    @Override
     public tipoPessoa getTipo() {
         return tipoPessoa.FUNCIONARIO;
    }

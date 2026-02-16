@@ -10,28 +10,16 @@ import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import interfaces.Legenda;
+import javax.swing.AbstractButton;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 public class Atalhos {
-    
-    // Atalho com botão ENTER com ação generica
-    public static void enterGlobal(JRootPane root, JButton botao) {
-        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("ENTER"), "ENTER_GLOBAL");
 
-        root.getActionMap().put("ENTER_GLOBAL", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                botao.doClick();
-            }
-        });
-    }
-    
     // Atalho generico
-    public static void atalho(JButton botao, String tecla) {
+    public static void atalho(AbstractButton botao, String tecla) {
         botao.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(tecla), tecla);
 
@@ -42,20 +30,7 @@ public class Atalhos {
             }
         });
     }
-    
-    // Tela de pagamento - metodos de pagamento
-    public static void atalho(JRadioButton botao, String tecla) {
-        botao.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(tecla), tecla);
 
-        botao.getActionMap().put(tecla, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                botao.doClick();
-            }
-        });
-    }
-    
     // Tela de pagamento - combobox dos funcionarios
     public static void atalho(JComboBox combo, String tecla) {
         combo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -69,6 +44,53 @@ public class Atalhos {
 
                 // força a navegação com setas imediatamente
                 combo.getEditor().getEditorComponent().requestFocus();
+            }
+        });
+    }
+    
+    public static void atalhoTelaCheia(javax.swing.JFrame frame, String tecla) {
+        frame.getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke(tecla), tecla);
+        frame.getRootPane().getActionMap().put(tecla, new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean telaCheia = frame.isUndecorated();
+
+                frame.dispose(); // obrigatório
+
+                if (telaCheia) {
+                    // VOLTAR AO NORMAL
+                    frame.setUndecorated(false);
+                    frame.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+                    frame.setLocationRelativeTo(null);
+                } else {
+                    // IR PARA TELA CHEIA
+                    frame.setUndecorated(true);
+                    frame.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+                }
+
+                frame.setVisible(true);
+            }
+        });
+    }
+    
+    public static void atalhoSair(javax.swing.JFrame frame, String tecla) {
+        frame.getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke(tecla), tecla);
+        frame.getRootPane().getActionMap().put(tecla, new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int escolha = javax.swing.JOptionPane.showConfirmDialog(
+                        null,
+                        "Deseja fechar o programa?",
+                        "Confirmação",
+                        javax.swing.JOptionPane.YES_OPTION,
+                        javax.swing.JOptionPane.WARNING_MESSAGE
+                );
+                
+                if(escolha == javax.swing.JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
             }
         });
     }

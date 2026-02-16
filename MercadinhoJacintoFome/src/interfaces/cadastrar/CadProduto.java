@@ -1,21 +1,21 @@
 package interfaces.cadastrar;
 
-import services.ProdutoService;
 import classes.Produto;
+import conexao.ConexaoProduto;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadProduto extends javax.swing.JDialog {
 
-    private ProdutoService produtos;
+    private ConexaoProduto conexProduto;
     
-    public CadProduto(java.awt.Frame parent, boolean modal, ProdutoService produtos) {
-        this.produtos = produtos;
+    public CadProduto(java.awt.Frame parent, boolean modal, ConexaoProduto conexProduto) {
+        this.conexProduto = conexProduto;
         initComponents();
         this.setLocationRelativeTo(null);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 
@@ -165,28 +165,29 @@ public class CadProduto extends javax.swing.JDialog {
             return;
         }
 
-        Produto exitenteProduto = produtos.consultar(codigo);
+        Produto produtoExistente = conexProduto.consultarProduto(codigo);
 
-        if (exitenteProduto != null) {
+        if (produtoExistente != null) {
             JOptionPane.showMessageDialog(null, "Produto já cadastrado!");
             return;
         }
-        
-        Produto novoProduto = produtos.consultar(codigo);
+
+        Produto novoProduto = new Produto();
         novoProduto.setDescricao(descricao);
         novoProduto.setCodigoProduto(codigo);
         novoProduto.setQuantidade(quantidade);
         novoProduto.setValorUnitario(valorUnitario);
 
-        produtos.cadastrar(codigo, novoProduto);
+        conexProduto.cadastrarProduto(novoProduto);
 
         txtDescricao.setText("");
         txtCodigo.setText("");
         txtQuantidade.setText("");
         txtValorUnitario.setText("");
-        
+
         JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
         dispose();
+
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -194,12 +195,21 @@ public class CadProduto extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
-        try {
-            Produto p = produtos.consultar(txtCodigo.getText().trim().replaceAll("\\D", ""));
+        String codigo = txtCodigo.getText().trim().replaceAll("\\D", "");
+
+        if (codigo.isEmpty()) return;
+
+        Produto p = conexProduto.consultarProduto(codigo);
+
+        if (p != null) {
             txtDescricao.setText(p.getDescricao());
             txtQuantidade.setText(String.valueOf(p.getQuantidade()));
             txtValorUnitario.setText(String.valueOf(p.getValorUnitario()));
-        } catch (Exception e) {
+        } else {
+            // limpa os campos se não existir
+            txtDescricao.setText("");
+            txtQuantidade.setText("");
+            txtValorUnitario.setText("");
         }
     }//GEN-LAST:event_txtCodigoFocusLost
 

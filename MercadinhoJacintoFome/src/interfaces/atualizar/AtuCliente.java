@@ -1,39 +1,38 @@
 package interfaces.atualizar;
 
 import classes.Cliente;
-import classes.Pessoa;
+import conexao.ConexaoCliente;
 import javax.swing.JOptionPane;
-import services.PessoaService;
 import utilidades.tabela.Atalhos;
 
 public class AtuCliente extends javax.swing.JDialog {
     
-    private PessoaService pessoas;
+    private ConexaoCliente conexCliente;
     private String cpf;
     
-    public AtuCliente(java.awt.Window parent, boolean modal, PessoaService pessoas) {
+    public AtuCliente(java.awt.Window parent, boolean modal, ConexaoCliente conexCliente) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.pessoas = pessoas;
+        this.conexCliente = conexCliente;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuCliente(PessoaService pessoas, String cpf) {
+    public AtuCliente(ConexaoCliente conexCliente, String cpf) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.pessoas = pessoas;
+        this.conexCliente = conexCliente;
         this.cpf = cpf;
         
         txtCpf.setEditable(false);
         Atalhos.focar(txtNome);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 
@@ -177,24 +176,24 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         String nome = txtNome.getText().trim();
-        cpf = txtCpf.getText().trim();
+        cpf = txtCpf.getText().replace(".", "").replace("-", "").trim();
         String endereco = txtEndereco.getText().trim();
         String telefone = txtTelefone.getText().trim();
 
         // VALIDAÇÕES
-        if (nome.isEmpty() || cpf./*replace(".", "").*/trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+        if (nome.isEmpty() || cpf.trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
         
-        Pessoa pessoa = pessoas.consultar(cpf);
+        Cliente cliente = conexCliente.consultarCliente(cpf);
 
-        if(pessoa != null) {
-            pessoa.setNome(nome);
-            ((Cliente)pessoa).setEndereco(endereco);
-            ((Cliente)pessoa).setTelefone(telefone);
+        if(cliente != null) {
+            cliente.setNome(nome);
+            cliente.setEndereco(endereco);
+            cliente.setTelefone(telefone);
             
-            pessoas.cadastrar(cpf, pessoa);
+            conexCliente.atualizarCliente(cliente);
 
             txtCpf.setText("");
             txtEndereco.setText("");
@@ -203,12 +202,13 @@ public class AtuCliente extends javax.swing.JDialog {
 
             String mensagem =
                 "Cliente atualizado com sucesso!\n\n" +
-                "CPF: " + pessoa.getCpf() + "\n" +
-                "Nome: " + pessoa.getNome() + "\n" +       
-                "Endereço: " + ((Cliente)pessoa).getEndereco() + "\n" +
-                "Telefone: " + ((Cliente)pessoa).getTelefone();
+                "CPF: " + cliente.getCpf() + "\n" +
+                "Nome: " + cliente.getNome() + "\n" +       
+                "Endereço: " + cliente.getEndereco() + "\n" +
+                "Telefone: " + cliente.getTelefone();
 
             JOptionPane.showMessageDialog(null, mensagem);
+            dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
         }
@@ -220,13 +220,13 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Pessoa pessoa = (Cliente) pessoas.consultar(cpf);
+            Cliente cliente = conexCliente.consultarCliente(cpf);
             
-            if (pessoa != null) {
-                txtNome.setText(pessoa.getNome());
-                txtCpf.setText(pessoa.getCpf());
-                txtEndereco.setText(((Cliente)pessoa).getEndereco());
-                txtTelefone.setText(((Cliente)pessoa).getTelefone());
+            if (cliente != null) {
+                txtNome.setText(cliente.getNome());
+                txtCpf.setText(cliente.getCpf());
+                txtEndereco.setText(cliente.getEndereco());
+                txtTelefone.setText(cliente.getTelefone());
             }
 
         } catch (Exception e) {
@@ -236,10 +236,10 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Pessoa p = pessoas.consultar(cpf);
-            txtEndereco.setText(((Cliente)p).getEndereco());
-            txtNome.setText(p.getNome()); 
-            txtTelefone.setText(String.valueOf(((Cliente)p).getTelefone()));
+            Cliente c = conexCliente.consultarCliente(cpf);
+            txtEndereco.setText(c.getEndereco());
+            txtNome.setText(c.getNome()); 
+            txtTelefone.setText(String.valueOf(c.getTelefone()));
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCpfFocusLost

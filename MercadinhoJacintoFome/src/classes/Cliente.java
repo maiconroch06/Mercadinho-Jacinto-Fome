@@ -11,27 +11,28 @@ public class Cliente extends Pessoa {
         this.endereco = endereco;
         this.telefone = telefone;
     }
+
+    @Override
+    public tipoPessoa getTipo(){
+        return tipoPessoa.CLIENTE;
+    }
     
     @Override
     public String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereço) {
-        this.endereco = endereço;
-    }
-
     @Override
     public String getTelefone() {
         return telefone;
     }
+    
+    public void setEndereco(String endereço) {
+        this.endereco = endereço;
+    }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-    
-    public tipoPessoa getTipo(){
-        return tipoPessoa.CLIENTE;
     }
     
 }

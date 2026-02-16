@@ -46,9 +46,5 @@ public class Produto{
     public void setValorUnitario(double valorUnitario) {
         this.valorUnitario = valorUnitario;
     }
-    
-    public double getValorTotal() {
-        return quantidade * valorUnitario;
-    }
 
 }

@@ -3,13 +3,16 @@ package utilidades.tabela;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import classes.*;
-import services.*;
+import conexao.ConexaoCliente;
+import conexao.ConexaoFuncionario;
+import conexao.ConexaoProduto;
+import conexao.ConexaoVenda;
 
 public class Pesquisar {
-    public static void pesqProduto(String codigo, DefaultTableModel modeloTableProduto, ProdutoService produtos) {
+    public static void pesqProduto(String codigo, DefaultTableModel modeloTableProduto, ConexaoProduto conexProdutos) {
         modeloTableProduto.setRowCount(0);
 
-        Produto p = produtos.consultar(codigo);
+        Produto p = conexProdutos.consultarProduto(codigo);
 
         if (p != null) {
             modeloTableProduto.addRow(new Object[]{
@@ -20,15 +23,15 @@ public class Pesquisar {
             });
             
         } else {
-            Carregar.tabelaProdutos(modeloTableProduto, produtos.listarTodos());
+            Carregar.tabelaProdutos(modeloTableProduto, conexProdutos.consultarProdutos());
             JOptionPane.showMessageDialog(null, "Produto não encontrado");
         }
     }
 
-    public static void pesqCliente(String cpf, DefaultTableModel modeloTableCliente, PessoaService pessoas) {
+    public static void pesqCliente(String cpf, DefaultTableModel modeloTableCliente, ConexaoCliente conexCliente) {
         modeloTableCliente.setRowCount(0);
 
-        Pessoa c = pessoas.consultar(cpf);
+        Pessoa c = conexCliente.consultarCliente(cpf);
 
         if (c != null) {
             modeloTableCliente.addRow(new Object[]{
@@ -39,15 +42,15 @@ public class Pesquisar {
             });
             
         } else {
-            Carregar.tabelaClientes(modeloTableCliente, pessoas.listarTodos());
+            Carregar.tabelaClientes(modeloTableCliente, conexCliente.consultarClientes());
             JOptionPane.showMessageDialog(null, "Cliente não encontrado");
         }
     }
 
-    public static void pesqFuncionario(String cpf, DefaultTableModel modeloTableFuncionario, PessoaService pessoas) {
+    public static void pesqFuncionario(String cpf, DefaultTableModel modeloTableFuncionario, ConexaoFuncionario conexFuncionario) {
         modeloTableFuncionario.setRowCount(0);
 
-        Pessoa f = pessoas.consultar(cpf);
+        Pessoa f = conexFuncionario.consultarFuncionario(cpf);
 
         if (f != null) {
             modeloTableFuncionario.addRow(new Object[]{
@@ -56,15 +59,15 @@ public class Pesquisar {
             });
             
         } else {
-            Carregar.tabelaFuncionarios(modeloTableFuncionario, pessoas.listarTodos());
+            Carregar.tabelaFuncionarios(modeloTableFuncionario, conexFuncionario.consultarFuncionarios());
             JOptionPane.showMessageDialog(null, "Funcionário não encontrado");
         }
     }
 
-    public static void pesqVenda(String id, DefaultTableModel modeloTableVenda, VendaService vendas) {
+    public static void pesqVenda(String id, DefaultTableModel modeloTableVenda, ConexaoVenda conexVendas) {
         modeloTableVenda.setRowCount(0);
 
-        RegistroVenda v = vendas.consultar(id);
+        RegistroVenda v = conexVendas.consultarVenda(id);
 
         if (v != null) {
             modeloTableVenda.addRow(new Object[]{
@@ -74,7 +77,7 @@ public class Pesquisar {
             });
             
         } else {
-            Carregar.tabelaVendas(modeloTableVenda, vendas.listarTodas());
+            Carregar.tabelaVendas(modeloTableVenda, conexVendas.consultarVendas());
             JOptionPane.showMessageDialog(null, "Venda não encontrada");
         }
     }

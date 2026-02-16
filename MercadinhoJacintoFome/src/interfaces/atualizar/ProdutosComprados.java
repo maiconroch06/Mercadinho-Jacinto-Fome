@@ -1,26 +1,26 @@
 package interfaces.atualizar;
 
 import classes.RegistroVenda;
-import services.VendaService;
+import conexao.ConexaoVenda;
 import javax.swing.table.DefaultTableModel;
 import utilidades.tabela.Atalhos;
 import utilidades.tabela.Carregar;
 
 public class ProdutosComprados extends javax.swing.JDialog {    
     
-    private VendaService vendas;
+    private ConexaoVenda conexVendas;
     private String idVenda;
 
-    public ProdutosComprados(java.awt.Window parent, boolean modal, String idVenda, VendaService vendas) {
+    public ProdutosComprados(java.awt.Window parent, boolean modal, String idVenda, ConexaoVenda conexVendas) {
         initComponents(); 
         
         this.setLocationRelativeTo(this);
         this.idVenda = idVenda;
-        this.vendas = vendas;
+        this.conexVendas = conexVendas;
         
         carregarDados();
         
-        Atalhos.enterGlobal(getRootPane(), btVoltar);
+        Atalhos.atalho(btVoltar, "ESCAPE");
     }
     
     @SuppressWarnings("unchecked")
@@ -67,9 +67,16 @@ public class ProdutosComprados extends javax.swing.JDialog {
                 "Código", "Descrição", "Quantidade", "Valor Unitário (R$)", "Valor Total (R$)"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -196,7 +203,7 @@ public class ProdutosComprados extends javax.swing.JDialog {
 
     //Métodos
     private void carregarDados() {
-        RegistroVenda venda = vendas.consultar(idVenda);
+        RegistroVenda venda = conexVendas.consultarVenda(idVenda);
         
         txtIdVenda.setText(venda.getIdVenda());
         txtTotalCompra.setText(String.format("R$ %.2f", venda.getTotalValor()));

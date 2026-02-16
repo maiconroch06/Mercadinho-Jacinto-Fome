@@ -16,7 +16,7 @@ public class TelaEspecie extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         
         Atalhos.atalho(btVoltar, "ESCAPE");
-        Atalhos.enterGlobal(rootPane, btConfirmar);
+        Atalhos.atalho(btConfirmar, "ENTER");
 
         this.total = total;
         txtTotal.setText(String.format("R$ %.2f", total));

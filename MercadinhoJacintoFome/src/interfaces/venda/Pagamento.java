@@ -2,33 +2,36 @@ package interfaces.venda;
 
 import classes.Cliente;
 import classes.Funcionario;
-import classes.Pessoa;
 import classes.RegistroVenda;
+import conexao.ConexaoCliente;
+import conexao.ConexaoFuncionario;
 import interfaces.cadastrar.CadCliente;
 import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import services.PessoaService;
 import utilidades.tabela.Atalhos;
 
 public class Pagamento extends javax.swing.JDialog {
     
-    private final PessoaService pessoas;
+    private final ConexaoFuncionario conexFuncionario;
+    private final ConexaoCliente conexCliente;
     private final RegistroVenda venda;
     private boolean finalizada = false;
 
-    public Pagamento(Window parent, boolean modal, PessoaService pessoas, RegistroVenda venda) {
-        super(parent, ModalityType.APPLICATION_MODAL); 
+    public Pagamento(Window parent, boolean modal, ConexaoFuncionario conexFuncionario, ConexaoCliente conexCliente, RegistroVenda venda) {
+
+        super(parent, ModalityType.APPLICATION_MODAL);
 
         initComponents();
-        this.setLocationRelativeTo(parent);
-        
-        this.pessoas = pessoas;
+        setLocationRelativeTo(parent);
+
+        this.conexFuncionario = conexFuncionario;
+        this.conexCliente = conexCliente;
         this.venda = venda;
-        
-        Atalhos.enterGlobal(getRootPane(), btnFinalizar);
+
+        Atalhos.atalho(btFinalizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
-        Atalhos.atalho(btnVoltar, "ESCAPE");
+        Atalhos.atalho(btVoltar, "ESCAPE");
         Atalhos.atalho(cbFuncionario, "F1");
         Atalhos.atalho(opcPix, "F2");
         Atalhos.atalho(opcDebito, "F3");
@@ -36,6 +39,7 @@ public class Pagamento extends javax.swing.JDialog {
         Atalhos.atalho(opcEspecie, "F5");
 
         txtTotal.setText(String.format("R$ %.2f", venda.getTotalValor()));
+
         carregarFuncionariosNoCombo();
     }
     
@@ -60,8 +64,8 @@ public class Pagamento extends javax.swing.JDialog {
         opcEspecie = new javax.swing.JRadioButton();
         txtNomeCliente = new javax.swing.JTextField();
         txtCpfCliente = new javax.swing.JFormattedTextField();
-        btnVoltar = new javax.swing.JButton();
-        btnFinalizar = new javax.swing.JButton();
+        btVoltar = new javax.swing.JButton();
+        btFinalizar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
         btnCadNCliente = new javax.swing.JButton();
@@ -113,17 +117,17 @@ public class Pagamento extends javax.swing.JDialog {
             }
         });
 
-        btnVoltar.setText("Voltar");
-        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+        btVoltar.setText("Voltar");
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltarActionPerformed(evt);
+                btVoltarActionPerformed(evt);
             }
         });
 
-        btnFinalizar.setText("Finalizar");
-        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
+        btFinalizar.setText("Finalizar");
+        btFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFinalizarActionPerformed(evt);
+                btFinalizarActionPerformed(evt);
             }
         });
 
@@ -162,11 +166,11 @@ public class Pagamento extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnCadNCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnFinalizar)))
+                                .addComponent(btFinalizar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(opcEspecie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -218,150 +222,168 @@ public class Pagamento extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCadNCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnVoltar)
-                        .addComponent(btnFinalizar)))
+                        .addComponent(btVoltar)
+                        .addComponent(btFinalizar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        String cpfCliente = txtCpfCliente.getText().trim();
+    private void btFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarActionPerformed
+        String cpfCliente = txtCpfCliente.getText()
+                .replace(".", "")
+                .replace("-", "")
+                .trim();
+
         String nomeCliente = txtNomeCliente.getText().trim();
-        
-        // Verifica se cpf tá vazio ou com menos dígitos;
-        if (cpfCliente.isEmpty() || cpfCliente.length() != 14) {
+
+        // ===== Validação CPF =====
+        if (cpfCliente.length() != 11) {
             JOptionPane.showMessageDialog(this, "CPF inválido.");
             return;
         }
-        
-        Pessoa cliente = pessoas.consultar(cpfCliente);
-        
+
+        Cliente cliente = conexCliente.consultarCliente(cpfCliente);
+
+        // ===== Cliente não encontrado =====
         if (cliente == null) {
-            Object[] options = {"Cadastrar", "Tentar Novamente"};
+
+            Object[] options = {"Cadastrar", "Cancelar"};
+
             int escolha = JOptionPane.showOptionDialog(
-                this,
-                "Cliente não Cadastrado ou CPF Incorreto." + cpfCliente,
-                "Cliente",
-                JOptionPane.YES_NO_OPTION,         
-                JOptionPane.WARNING_MESSAGE, 
-                null,                              
-                options,                           
-                options[0]                         
+                    this,
+                    "Cliente não encontrado.\nDeseja cadastrar?",
+                    "Cliente",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    options,
+                    options[0]
             );
-            
+
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(this, true, pessoas, nomeCliente, cpfCliente);
+                CadCliente cad = new CadCliente(
+                        this, true,
+                        conexCliente,
+                        nomeCliente,
+                        cpfCliente
+                );
                 cad.setVisible(true);
             }
+
             return;
         }
-        
-        Pessoa funcionarioSelecionado =
-        (Funcionario) cbFuncionario.getSelectedItem();
+
+        // ===== Funcionário =====
+        Funcionario funcionarioSelecionado =
+                (Funcionario) cbFuncionario.getSelectedItem();
 
         if (funcionarioSelecionado == null) {
-            JOptionPane.showMessageDialog(this, "Selecione um funcionário válido.");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um funcionário."
+            );
             return;
         }
 
         String cpfFuncionario = funcionarioSelecionado.getCpf();
-        
-        String metodoPagamento =
-            opcPix.isSelected() ? "PIX" :
-            opcDebito.isSelected() ? "DEBITO" :
-            opcCredito.isSelected() ? "CREDITO" :
-            opcEspecie.isSelected() ? "ESPECIE" :
-            null;
+
+        // ===== Método de pagamento =====
+        String metodoPagamento = null;
+
+        if (opcPix.isSelected()) metodoPagamento = "PIX";
+        if (opcDebito.isSelected()) metodoPagamento = "DEBITO";
+        if (opcCredito.isSelected()) metodoPagamento = "CREDITO";
+        if (opcEspecie.isSelected()) metodoPagamento = "ESPECIE";
+
+        if (metodoPagamento == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione a forma de pagamento."
+            );
+            return;
+        }
+
+        // ===== Tela de pagamento =====
+        boolean pago = false;
 
         switch (metodoPagamento) {
+
             case "PIX":
-                TelaPix tPix = new TelaPix(this, true, venda.getTotalValor());
-                tPix.setLocationRelativeTo(this);
-                tPix.setVisible(true);
-                tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                
-                if(!tPix.isPago()){
-                    return;
-                }
-                
+                TelaPix pix = new TelaPix(this, true, venda.getTotalValor());
+                pix.setLocationRelativeTo(this);
+                pix.setVisible(true);
+                pago = pix.isPago();
                 break;
 
             case "DEBITO":
-                TelaDebito tDeb = new TelaDebito(this, true, venda.getTotalValor());
-                tDeb.setLocationRelativeTo(this);
-                tDeb.setVisible(true);
-                tDeb.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                
-                if(!tDeb.isPago()){
-                    return;
-                }
-                
+                TelaDebito deb = new TelaDebito(this, true, venda.getTotalValor());
+                deb.setLocationRelativeTo(this);
+                deb.setVisible(true);
+                pago = deb.isPago();
                 break;
 
             case "CREDITO":
-                TelaCredito tCred = new TelaCredito(this, true, venda.getTotalValor());
-                tCred.setLocationRelativeTo(this);
-                tCred.setVisible(true);
-                tCred.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                
-                if(!tCred.isPago()){
-                    return;
-                }
-                
+                TelaCredito cred = new TelaCredito(this, true, venda.getTotalValor());
+                cred.setLocationRelativeTo(this);
+                cred.setVisible(true);
+                pago = cred.isPago();
                 break;
 
             case "ESPECIE":
-                TelaEspecie tEsp = new TelaEspecie(this, true, venda.getTotalValor());
-                tEsp.setLocationRelativeTo(this);
-                tEsp.setVisible(true);
-                tEsp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                
-                if(!tEsp.isPago()){
-                    return;
-                }
+                TelaEspecie esp = new TelaEspecie(this, true, venda.getTotalValor());
+                esp.setLocationRelativeTo(this);
+                esp.setVisible(true);
+                pago = esp.isPago();
                 break;
-
-            default:
-                JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
-                return;
         }
-        
-        // Finaliza venda
+
+        if (!pago) return;
+
+        // ===== Finaliza venda =====
         venda.setCpfCliente(cpfCliente);
         venda.setCpfFuncionario(cpfFuncionario);
         venda.setMetodo(metodoPagamento);
 
         finalizada = true;
-        this.dispose();
-    }//GEN-LAST:event_btnFinalizarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btFinalizarActionPerformed
 
-    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnVoltarActionPerformed
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btnCadNClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadNClienteActionPerformed
         String nomeCliente = txtNomeCliente.getText().trim();
-        String cpfCliente = txtCpfCliente.getText().trim();
-        
-        CadCliente cad = new CadCliente(this, true, pessoas, nomeCliente, cpfCliente);
+        String cpfCliente = txtCpfCliente.getText().replace(".", "").replace("-", "").trim();
+
+        CadCliente cad = new CadCliente(this, true, conexCliente, nomeCliente, cpfCliente);
+
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 
     private void txtCpfClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfClienteFocusLost
-        try {
-            Pessoa pessoa = pessoas.consultar(txtCpfCliente.getText().trim());
-            txtNomeCliente.setText(pessoa.getNome());
-            
-        } catch (Exception e) {
+        String cpf = txtCpfCliente.getText().replace(".", "").replace("-", "").trim();
+
+        if (cpf.length() != 11) {
+            txtNomeCliente.setText("");
+            return;
+        }
+
+        Cliente cliente = conexCliente.consultarCliente(cpf);
+
+        if (cliente != null) {
+            txtNomeCliente.setText(cliente.getNome());
+        } else {
+            txtNomeCliente.setText("");
         }
     }//GEN-LAST:event_txtCpfClienteFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btFinalizar;
+    private javax.swing.JButton btVoltar;
     private javax.swing.JButton btnCadNCliente;
-    private javax.swing.JButton btnFinalizar;
-    private javax.swing.JButton btnVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Funcionario> cbFuncionario;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
@@ -390,31 +412,26 @@ public class Pagamento extends javax.swing.JDialog {
 
         modelo.addElement(null);
 
-        for (Pessoa p : pessoas.listarTodos().values()) {
-            modelo.addElement((Funcionario)p);
+        for (Funcionario f : conexFuncionario.consultarFuncionarios()) {
+            modelo.addElement(f);
         }
 
         cbFuncionario.setModel(modelo);
-
-        cbFuncionario.setRenderer((list, value, index, isSelected, cellHasFocus) -> {
+        cbFuncionario.setRenderer((list, value, index, isSelected, focus) -> {
             javax.swing.JLabel label = new javax.swing.JLabel();
 
-            if (value == null) {
-                label.setText("<Funcionários>");
-            } else {
-                label.setText(value.getNome());
-            }
+            label.setText(value == null ? "<Funcionários>" : value.getNome());
 
             if (isSelected) {
+                label.setOpaque(true);
                 label.setBackground(list.getSelectionBackground());
                 label.setForeground(list.getSelectionForeground());
-                label.setOpaque(true);
             }
 
             return label;
         });
     }
-    
+
     public boolean isFinalizada() {
         return finalizada;
     }

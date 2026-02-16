@@ -1,39 +1,38 @@
 package interfaces.atualizar;
 
 import classes.Funcionario;
-import classes.Pessoa;
-import services.PessoaService;
+import conexao.ConexaoFuncionario;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class AtuFuncionario extends javax.swing.JDialog {
     
-    private PessoaService pessoas;
+    private ConexaoFuncionario conexFuncionario;
     private String cpf;
     
-    public AtuFuncionario(java.awt.Window parent, boolean modal, PessoaService pessoas) {
+    public AtuFuncionario(java.awt.Window parent, boolean modal, ConexaoFuncionario conexFuncionario) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.pessoas = pessoas;
+        this.conexFuncionario = conexFuncionario;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuFuncionario(PessoaService pessoas, String cpf) {
+    public AtuFuncionario(ConexaoFuncionario conexFuncionario, String cpf) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.pessoas = pessoas;
+        this.conexFuncionario = conexFuncionario;
         this.cpf = cpf;
 
         txtCpf.setEditable(false);
         Atalhos.focar(txtNome);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 
@@ -138,30 +137,31 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         String nome = txtNome.getText().trim();
-        cpf = txtCpf.getText().trim();
+        cpf = txtCpf.getText().replace(".", "").replace("-", "").trim();
 
         // VALIDAÇÕES
-        if (nome.isEmpty() || cpf/*.replace(".", "").replace("-", "")*/.trim().isEmpty()) {
+        if (nome.isEmpty() || cpf.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
         
-        Pessoa pessoa = pessoas.consultar(cpf);
+        Funcionario funcionario = conexFuncionario.consultarFuncionario(cpf);
             
-        if(pessoa != null) {
-            pessoa.setNome(nome);
+        if(funcionario != null) {
+            funcionario.setNome(nome);
             
-            pessoas.cadastrar(cpf, pessoa);
+            conexFuncionario.atualizarFuncionario(funcionario);
 
             txtNome.setText("");
             txtCpf.setText("");
 
             String mensagem = 
             "Funcionario atualizado com sucesso!\n\n" +
-            "CPF: " + pessoa.getCpf()+ "\n" +
-            "Nome: " + pessoa.getNome();
+            "CPF: " + funcionario.getCpf()+ "\n" +
+            "Nome: " + funcionario.getNome();
 
             JOptionPane.showMessageDialog(null, mensagem);
+            dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
         }
@@ -169,11 +169,11 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Pessoa pessoa = pessoas.consultar(cpf);
+            Funcionario funcionario = conexFuncionario.consultarFuncionario(cpf);
             
-            if (pessoa != null) {
-                txtNome.setText(pessoa.getNome());
-                txtCpf.setText(pessoa.getCpf());
+            if (funcionario != null) {
+                txtNome.setText(funcionario.getNome());
+                txtCpf.setText(funcionario.getCpf());
             }
 
         } catch (Exception e) {

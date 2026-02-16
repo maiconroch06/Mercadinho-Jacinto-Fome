@@ -9,6 +9,7 @@ public class RegistroVenda {
     private double totalValor;
     private String metodo;
     private ArrayList<ItemVenda> itensComprados;
+    private int itensTotal;
     
     public void setIdVenda(String idVenda) { 
         this.idVenda = idVenda; 
@@ -57,13 +58,13 @@ public class RegistroVenda {
     public void setItensComprados(ArrayList<ItemVenda> itensComprados) {
         this.itensComprados = itensComprados;
     }
+
+    public void setItensTotal(int itensTotal) {
+        this.itensTotal = itensTotal;
+    }
     
     public int getItensTotal() {
-        int soma = 0;
-        for (ItemVenda iv : itensComprados) {
-            soma += iv.getQuantidade();
-        }
-        return soma;
+        return itensTotal;
     }
     
 }

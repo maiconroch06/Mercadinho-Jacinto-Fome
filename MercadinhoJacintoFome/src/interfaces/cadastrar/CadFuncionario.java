@@ -1,22 +1,21 @@
 package interfaces.cadastrar;
 
 import classes.Funcionario;
-import classes.Pessoa;
-import services.PessoaService;
+import conexao.ConexaoFuncionario;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadFuncionario extends javax.swing.JDialog {
 
-    private PessoaService pessoas;
+    private ConexaoFuncionario conexFunionario;
     
-    public CadFuncionario(java.awt.Window parent, boolean modal, PessoaService pessoas) {
-        this.pessoas = pessoas;
+    public CadFuncionario(java.awt.Window parent, boolean modal, ConexaoFuncionario conexFunionario) {
+        this.conexFunionario = conexFunionario;
         initComponents();
         this.setLocationRelativeTo(null);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 
@@ -112,31 +111,32 @@ public class CadFuncionario extends javax.swing.JDialog {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         String nome = txtNome.getText().trim();
-        String cpf = txtCpf.getText().trim();
+        String cpf = txtCpf.getText().replace(".", "").replace("-", "").trim();
 
-        if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty()) {
+        if (nome.isEmpty() || cpf.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
 
-        Pessoa existenteFuncionario = pessoas.consultar(cpf);
+        Funcionario existenteFuncionario = conexFunionario.consultarFuncionario(cpf);
         
         if(existenteFuncionario != null){
             JOptionPane.showMessageDialog(null, "Funcionario já cadastrado!");
             return;
         }
         
-        Pessoa novoFuncionario = new Funcionario();
+        Funcionario novoFuncionario = new Funcionario();
         novoFuncionario.setNome(nome);
         novoFuncionario.setCpf(cpf);
 
-        pessoas.cadastrar(cpf, novoFuncionario);
+        if (conexFunionario.cadastrarFuncionario(novoFuncionario)) {
+            JOptionPane.showMessageDialog(null, "Cadastrado!");
 
-        txtNome.setText("");
-        txtCpf.setText("");
-        
-        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!");
-        dispose();
+            txtNome.setText("");
+            txtCpf.setText("");
+
+            dispose();
+        }
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,33 +1,32 @@
 package interfaces.cadastrar;
 
 import classes.Cliente;
-import classes.Pessoa;
-import services.PessoaService;
+import conexao.ConexaoCliente;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadCliente extends javax.swing.JDialog {
 
-    private PessoaService pessoas;
+    private ConexaoCliente conexCliente;
     
-    public CadCliente(java.awt.Window parent, boolean modal, PessoaService pessoas) {
+    public CadCliente(java.awt.Window parent, boolean modal, ConexaoCliente conexCliente) {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.pessoas = pessoas;
+        this.conexCliente = conexCliente;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public CadCliente(java.awt.Window parent, boolean modal, PessoaService pessoas, String nome, String cpf) {
+    public CadCliente(java.awt.Window parent, boolean modal, ConexaoCliente conexCliente, String nome, String cpf) {
         super(parent, ModalityType.APPLICATION_MODAL);
         
         initComponents();
         setLocationRelativeTo(parent);
         
-        this.pessoas = pessoas;
+        this.conexCliente = conexCliente;
 
         if (nome != null && !nome.trim().isEmpty()) {
             txtNome.setText(nome.trim());
@@ -38,7 +37,7 @@ public class CadCliente extends javax.swing.JDialog {
         }
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(rootPane, btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(rootPane);
     }
 
@@ -162,36 +161,35 @@ public class CadCliente extends javax.swing.JDialog {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         String nome = txtNome.getText().trim();
-        String cpf = txtCpf.getText().trim();
+        String cpf = txtCpf.getText().replace(".", "").replace("-", "").trim();
         String endereco = txtEndereco.getText().trim();
-        String telefone = txtTelefone.getText().trim();
+        String telefone = txtTelefone.getText().replaceAll("\\D", "");
 
-        if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+        if (nome.isEmpty() || cpf.isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
 
-        Pessoa existenteCliente = pessoas.consultar(cpf);
+        Cliente existenteCliente = conexCliente.consultarCliente(cpf);
         
         if(existenteCliente != null) {
             JOptionPane.showMessageDialog(null, "Cliente já cadastrado!");
             return;
         }
         
-        Pessoa novoCliente = new Cliente();
+        Cliente novoCliente = new Cliente();
         novoCliente.setNome(nome);
         novoCliente.setCpf(cpf);
-        ((Cliente)novoCliente).setEndereco(endereco);
-        ((Cliente)novoCliente).setTelefone(telefone);
+        novoCliente.setEndereco(endereco);
+        novoCliente.setTelefone(telefone);
 
-        pessoas.cadastrar(cpf, novoCliente);
+        conexCliente.cadastrarCliente(novoCliente);
 
         txtNome.setText("");
         txtCpf.setText("");
         txtEndereco.setText("");
         txtTelefone.setText("");
         
-        JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
         dispose();
     }//GEN-LAST:event_btCadastrarActionPerformed
 

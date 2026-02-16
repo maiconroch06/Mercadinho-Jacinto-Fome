@@ -1,38 +1,38 @@
 package interfaces.atualizar;
 
-import services.ProdutoService;
 import classes.Produto;
+import conexao.ConexaoProduto;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class AtuProduto extends javax.swing.JDialog {
     
-    private ProdutoService produtos;
+    private ConexaoProduto conexProduto;
     private String codigo;
     
-    public AtuProduto(java.awt.Window parent, boolean modal, ProdutoService produtos) {
+    public AtuProduto(java.awt.Window parent, boolean modal, ConexaoProduto conexProduto) {
         initComponents();
         setLocationRelativeTo(null);
         
-        this.produtos = produtos;
+        this.conexProduto = conexProduto;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuProduto(ProdutoService produtos, String codigo) {
+    public AtuProduto(ConexaoProduto conexProduto, String codigo) {
         initComponents();
         setLocationRelativeTo(null);
         
-        this.produtos = produtos;
+        this.conexProduto = conexProduto;
         this.codigo = codigo;
         
         txtCodigo.setEditable(false);
         Atalhos.focar(txtDescricao);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 
@@ -161,7 +161,7 @@ public class AtuProduto extends javax.swing.JDialog {
         String valorUnitarioS = txtValorUnitario.getText().trim();
 
         // Verifica se campos estão vazios
-        if (codigo.replace(".", "").replace("-", "").trim().isEmpty() || descricao.isEmpty()
+        if (codigo.trim().isEmpty() || descricao.isEmpty()
             || quantidadeS.isEmpty() || valorUnitarioS.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
             return;
@@ -192,14 +192,14 @@ public class AtuProduto extends javax.swing.JDialog {
             return;
         }
 
-        Produto produto = produtos.consultar(codigo);
+        Produto produto = conexProduto.consultarProduto(codigo);
         
         if(produto != null) {
             produto.setDescricao(descricao);
             produto.setQuantidade(quantidade);
             produto.setValorUnitario(valorUnitario);
             
-            produtos.cadastrar(codigo, produto);
+            conexProduto.atualizarProduto(produto);
 
             txtCodigo.setText("");
             txtDescricao.setText("");
@@ -214,6 +214,7 @@ public class AtuProduto extends javax.swing.JDialog {
             "Valor Unitário: " + produto.getValorUnitario();
 
             JOptionPane.showMessageDialog(null, mensagem);
+            dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Produto não encontrado!");
         }
@@ -225,7 +226,7 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Produto produto = produtos.consultar(codigo);
+            Produto produto = conexProduto.consultarProduto(codigo);
 
             if (produto != null) {
                 txtCodigo.setText(produto.getCodigoProduto());
@@ -241,11 +242,18 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
         try {
-            Produto p = produtos.consultar(codigo);
-            txtDescricao.setText(p.getDescricao());
-            txtQuantidade.setText(String.valueOf(p.getQuantidade())); 
-            txtValorUnitario.setText(String.valueOf(p.getValorUnitario()));
+            String codigoDigitado = txtCodigo.getText().trim();
+            Produto p = conexProduto.consultarProduto(codigoDigitado);
+
+            if (p != null) {
+                txtDescricao.setText(p.getDescricao());
+                txtQuantidade.setText(String.valueOf(p.getQuantidade())); 
+                txtValorUnitario.setText(String.valueOf(p.getValorUnitario()));
+            } else {
+                JOptionPane.showMessageDialog(null, "Produto não encontrado!");
+            }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_txtCodigoFocusLost
 
