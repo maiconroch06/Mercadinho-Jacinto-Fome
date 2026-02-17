@@ -15,7 +15,7 @@ public class TelaCredito extends javax.swing.JDialog {
         this.setLocationRelativeTo(parent);
         
         Atalhos.atalho(btVoltar, "ESCAPE");
-        Atalhos.enterGlobal(rootPane, btConfirmar);
+        Atalhos.atalho(btConfirmar, "ENTER");
         
         txtTotal.setText(String.format("R$ %.2f", total));
         carregarParcelas();

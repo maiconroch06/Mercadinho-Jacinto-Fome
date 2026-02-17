@@ -1,11 +1,9 @@
 package interfaces.venda;
 
-import classes.Cliente;
 import classes.Funcionario;
 import classes.Pessoa;
 import classes.RegistroVenda;
 import interfaces.cadastrar.CadCliente;
-import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import services.PessoaService;
@@ -17,7 +15,7 @@ public class Pagamento extends javax.swing.JDialog {
     private final RegistroVenda venda;
     private boolean finalizada = false;
 
-    public Pagamento(Window parent, boolean modal, PessoaService pessoas, RegistroVenda venda) {
+    public Pagamento(java.awt.Window parent, boolean modal, PessoaService pessoas, RegistroVenda venda) {
         super(parent, ModalityType.APPLICATION_MODAL); 
 
         initComponents();
@@ -26,7 +24,7 @@ public class Pagamento extends javax.swing.JDialog {
         this.pessoas = pessoas;
         this.venda = venda;
         
-        Atalhos.enterGlobal(getRootPane(), btnFinalizar);
+        Atalhos.atalho(btnFinalizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
         Atalhos.atalho(btnVoltar, "ESCAPE");
         Atalhos.atalho(cbFuncionario, "F1");
@@ -387,11 +385,13 @@ public class Pagamento extends javax.swing.JDialog {
     
     private void carregarFuncionariosNoCombo() {
         DefaultComboBoxModel<Funcionario> modelo = new DefaultComboBoxModel<>();
-
         modelo.addElement(null);
 
         for (Pessoa p : pessoas.listarTodos().values()) {
-            modelo.addElement((Funcionario)p);
+            if (p instanceof Funcionario) {
+                Funcionario f = (Funcionario) p;
+                modelo.addElement(f);
+            }
         }
 
         cbFuncionario.setModel(modelo);

@@ -17,7 +17,7 @@ public class CadCliente extends javax.swing.JDialog {
         this.pessoas = pessoas;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
@@ -38,7 +38,7 @@ public class CadCliente extends javax.swing.JDialog {
         }
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(rootPane, btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(rootPane);
     }
 

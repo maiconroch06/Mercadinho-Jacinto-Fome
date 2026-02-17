@@ -3,11 +3,7 @@ package services;
 import classes.Cliente;
 import classes.Funcionario;
 import classes.Pessoa;
-import classes.Pessoa.tipoPessoa;
-import enums.TipoPessoa;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
 * Classe responsável pelo gerenciamento dos clientes e funcionarios do sistema.

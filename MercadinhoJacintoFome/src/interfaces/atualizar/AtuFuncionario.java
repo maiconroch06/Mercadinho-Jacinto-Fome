@@ -18,7 +18,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
         this.pessoas = pessoas;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
@@ -33,7 +33,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
         Atalhos.focar(txtNome);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 

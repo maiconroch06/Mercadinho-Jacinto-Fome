@@ -21,37 +21,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         configurarTela();
-        
-        // Pega os modelos das tabelas e define como global para todo codigo.
-        this.modeloTableProduto = (DefaultTableModel)jTProdutos.getModel();
-        this.modeloTableCliente = (DefaultTableModel)jTClientes.getModel();
-        this.modeloTableFuncionario = (DefaultTableModel)jTFuncionarios.getModel();
-        this.modeloTabelaVenda = (DefaultTableModel)jTVendas.getModel();
-
-        // Sempre ao executar o main, adicionar valores pre definidos às tabelas
-        g.produtos().carregarProdutosPadrao();
-        g.pessoas().carregarPessoasPadrao();
-        
-        duploClick(jTClientes);
-        duploClick(jTFuncionarios);
-        duploClick(jTProdutos);
-        duploClick(jTVendas);
-        
-        Atalhos.enterGlobal(getRootPane(), btPesquisar);
-        Atalhos.atalhoLegenda(getRootPane());
-        
-        // Sempre ao executar o main, carrega os dados do HashMap na primeira tabela
-        Carregar.tabelaProdutos(modeloTableProduto, g.produtos().listarTodos());
-        
-        // Sempre ao executar o main, ativar ordernação em todas as tabelas
-        Carregar.ordenacao(jTProdutos);
-        Carregar.ordenacao(jTClientes, 1);
-        Carregar.ordenacao(jTFuncionarios, 1);
-        Carregar.ordenacao(jTVendas);
-        
-        // Habilida a função de sempre mostrar lista inteira, mesmo depois de ter feito uma pesquisa anteriomente.
-        atualizarTabelaProdutos();
-        g.pessoas().setPessoasAtualizadas(true);
     }
     
     @SuppressWarnings("unchecked")
@@ -90,6 +59,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tela Principal");
+        setUndecorated(true);
 
         painelImagem = new javax.swing.JPanel() {
             // carrega a imagem uma vez
@@ -273,7 +243,7 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Venda", "Funcionario", "Cliente", "Quantidade Total De Itens", "Total da Compra (R$)"
+                "id_venda", "Funcionario (CPF)", "Cliente (CPF)", "Quantidade de Itens (Un)", "Total da Compra (R$)"
             }
         ) {
             Class[] types = new Class [] {
@@ -293,6 +263,13 @@ public class Main extends javax.swing.JFrame {
         });
         jTVendas.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jTVendas);
+        if (jTVendas.getColumnModel().getColumnCount() > 0) {
+            jTVendas.getColumnModel().getColumn(0).setResizable(false);
+            jTVendas.getColumnModel().getColumn(1).setResizable(false);
+            jTVendas.getColumnModel().getColumn(2).setResizable(false);
+            jTVendas.getColumnModel().getColumn(3).setResizable(false);
+            jTVendas.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         Abas.addTab("Tabela de Vendas", jScrollPane4);
 
@@ -676,18 +653,43 @@ public class Main extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private void configurarTela() {
-        // Posiciona os jLabells - Caso dê algum erro
-        //jLabel1.setSize(800, 60);
-        //jLabel2.setSize(800, 40);
-
-        // Painel com layout absoluto. Logo permite controlar posições via setLocation()
-        //painelImagem.setLayout(null);
-        
-        // Faz com que a imagem seja desenhada atras dos componentes
         setContentPane(painelImagem);
         
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
+        
+        // Pega os modelos das tabelas e define como global para todo codigo.
+        this.modeloTableProduto = (DefaultTableModel)jTProdutos.getModel();
+        this.modeloTableCliente = (DefaultTableModel)jTClientes.getModel();
+        this.modeloTableFuncionario = (DefaultTableModel)jTFuncionarios.getModel();
+        this.modeloTabelaVenda = (DefaultTableModel)jTVendas.getModel();
+
+        // Sempre ao executar o main, adicionar valores pre definidos às tabelas
+        g.produtos().carregarProdutosPadrao();
+        g.pessoas().carregarPessoasPadrao();
+        
+        duploClick(jTClientes);
+        duploClick(jTFuncionarios);
+        duploClick(jTProdutos);
+        duploClick(jTVendas);
+        
+        Atalhos.atalho(btPesquisar, "ENTER");
+        Atalhos.atalhoLegenda(getRootPane());
+        Atalhos.atalhoTelaCheia(this, "F11");
+        Atalhos.atalhoSair(this, "ESCAPE");
+        
+        // Sempre ao executar o main, carrega os dados do HashMap na primeira tabela
+        Carregar.tabelaProdutos(modeloTableProduto, g.produtos().listarTodos());
+        
+        // Sempre ao executar o main, ativar ordernação em todas as tabelas
+        Carregar.ordenacao(jTProdutos);
+        Carregar.ordenacao(jTClientes, 1);
+        Carregar.ordenacao(jTFuncionarios, 1);
+        Carregar.ordenacao(jTVendas);
+        
+        // Habilida a função de sempre mostrar lista inteira, mesmo depois de ter feito uma pesquisa anteriomente.
+        atualizarTabelaProdutos();
+        g.pessoas().setPessoasAtualizadas(true);
     }
 
     private void duploClick(JTable tabela) {

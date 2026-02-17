@@ -16,7 +16,7 @@ public class CadFuncionario extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 

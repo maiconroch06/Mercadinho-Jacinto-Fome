@@ -382,7 +382,7 @@ public class NovaVenda extends javax.swing.JDialog {
         limparCamposProduto();
         atualizarValorTotal();
         Atalhos.focar(txtCodigo);
-        Atalhos.enterGlobal(rootPane, btAdicionar);
+        Atalhos.atalho(btAdicionar, "ENTER");
     }//GEN-LAST:event_btAdicionarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
@@ -438,7 +438,7 @@ public class NovaVenda extends javax.swing.JDialog {
             int estoque = p.getQuantidade();
             jSpQtdProduto.setModel(new SpinnerNumberModel(1, 1, estoque, 1));
             Atalhos.focar(jSpQtdProduto);
-            Atalhos.enterGlobal(rootPane, btAdicionar);
+            Atalhos.atalho(btAdicionar, "ENTER");
 
         } else {
             JOptionPane.showMessageDialog(this, "Produto não encontrado: " + codigo);
@@ -521,7 +521,7 @@ public class NovaVenda extends javax.swing.JDialog {
             jSpQtdProduto.setModel(new SpinnerNumberModel(1, 1, estoque, 1)); // Define limite do spinner
             
             Atalhos.focar(jSpQtdProduto);
-            Atalhos.enterGlobal(rootPane, btAdicionar);
+            Atalhos.atalho(btAdicionar, "ENTER");
         }
     }//GEN-LAST:event_jTProdutosMouseClicked
 
@@ -532,7 +532,7 @@ public class NovaVenda extends javax.swing.JDialog {
             jSpQtdRemover.setModel(new SpinnerNumberModel(1, 1, qtd, 1)); // Atualiza limite do Spinner;
             
             Atalhos.focar(jSpQtdRemover);            
-            Atalhos.enterGlobal(rootPane, btRemover);
+            Atalhos.atalho(btRemover, "ENTER");
         }
     }//GEN-LAST:event_jTCarrinhoMouseClicked
 

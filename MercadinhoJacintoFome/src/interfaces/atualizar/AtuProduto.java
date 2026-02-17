@@ -17,7 +17,7 @@ public class AtuProduto extends javax.swing.JDialog {
         this.produtos = produtos;
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
@@ -32,7 +32,7 @@ public class AtuProduto extends javax.swing.JDialog {
         Atalhos.focar(txtDescricao);
         
         Atalhos.atalho(btCancelar, "ESCAPE");
-        Atalhos.enterGlobal(getRootPane(), btAtualizar);
+        Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalhoLegenda(getRootPane());
     }
 
