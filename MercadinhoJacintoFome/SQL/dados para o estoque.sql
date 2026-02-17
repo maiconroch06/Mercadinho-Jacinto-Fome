@@ -1,11 +1,11 @@
 # DEVS que pariciparam do projeto #
 insert into pessoa (nome, cpf) values
-('Danilo', '111.111.111-11'),
-('Gabriel', '222.222.222-22'),
-('Jackson', '333.333.333-33'),
-('Laelson', '444.444.444-44'),
-('Maicon', '555.555.555-55'),
-('Ryan', '666.666.666-66');
+('Danilo', '11111111111'),
+('Gabriel', '22222222222'),
+('Jackson', '33333333333'),
+('Laelson', '44444444444'),
+('Maicon', '55555555555'),
+('Ryan', '66666666666');
 
 # Funcionarios #
 insert into funcionario (id_pessoa) values
