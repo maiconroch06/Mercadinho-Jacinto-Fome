@@ -282,14 +282,14 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Venda", "Funcionario", "Cliente", "Quantidade Total De Itens", "Total da Compra (R$)"
+                "ID_Venda", "Funcionario", "Cliente", "Metodo de Pagamento", "Quantidade Total De Itens", "Total da Compra (R$)"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -308,6 +308,7 @@ public class Main extends javax.swing.JFrame {
             jTVendas.getColumnModel().getColumn(2).setResizable(false);
             jTVendas.getColumnModel().getColumn(3).setResizable(false);
             jTVendas.getColumnModel().getColumn(4).setResizable(false);
+            jTVendas.getColumnModel().getColumn(5).setResizable(false);
         }
 
         Abas.addTab("Tabela de Vendas", jScrollPane4);

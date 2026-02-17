@@ -87,8 +87,9 @@ public class Carregar {
                 v.getIdVenda(),
                 v.getCpfFuncionario(),
                 v.getCpfCliente(),
+                v.getMetodo(),
                 v.getItensTotal(),
-                String.format("R$ %.2f", v.getTotalValor())
+                v.getTotalValor()
             });
         }
     }
