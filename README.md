@@ -1,5 +1,8 @@
 # Mercadinho Jacinto Fome 🛒
 
+![Linguagem](https://img.shields.io/badge/language-Java-blue.svg)
+![Status](https://img.shields.io/badge/status-%20Finalizado-green)
+
 Sistema de gerenciamento de estoque e ponto de venda desenvolvido em Java na IDE NetBeens. O projeto foca na aplicação de conceitos de Programação Orientada a Objetos (POO) e persistência de dados em memória e com outra versão [em Banco de Dados](https://github.com/maiconroch06/Mercadinho-Jacinto-Fome/tree/integracao-banco-de-dados).
 
 ## 🚀 Funcionalidades
