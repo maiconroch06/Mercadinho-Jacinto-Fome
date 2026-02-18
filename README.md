@@ -10,7 +10,7 @@ Sistema de gerenciamento de estoque e ponto de venda desenvolvido em Java na IDE
 - **Múltiplas Formas de Pagamento**: PIX, Débito, Crédito e Espécie. (Sem API 😥)
 - **Interface Amigável**: Utilização de atalhos de teclado para agilizar o atendimento.
 
-## Demonstração do projeto - Imagem com link
+## ▶ Demonstração do projeto - Imagem com link
 <div align="center">
 
   [![Assista ao vídeo](https://img.youtube.com/vi/cDnx86qTNS0/0.jpg)](https://www.youtube.com/watch?v=cDnx86qTNS0)
